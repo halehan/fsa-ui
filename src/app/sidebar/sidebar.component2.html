@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+          
+
+            <ul style="margin-top: 40px;" class="list-unstyled components">
+                <li>
+                    <a [routerLink]="['/fee']" class="nav-link" [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                      <i class="fa fa-cogs"></i>&nbsp; Fee Maintenance</a>
+                </li>
+               
+                <li>
+                    <a [routerLink]="['/bidType']" class="nav-link" [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                      <i class="fa fa-cogs"></i>&nbsp; Bid Maintenance</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/agency']" class="nav-link" [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                      <i class="fa fa-cogs"></i>&nbsp; Agency Maintenance</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/vendor']" class="nav-link" [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                      <i class="fa fa-cogs"></i>&nbsp; Vendor Maintenance</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/bidType']" class="nav-link" [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                      <i class="fa fa-cogs"></i>&nbsp; Bid Type Maintenance</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/bidItemCodes']" class="nav-link" [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                      <i class="fa fa-cogs"></i>&nbsp; Bid Item Code Maintenance</a>
+                </li>
+            </ul>
+
+        
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+          <app-navbar></app-navbar>
+            <p>
+                 This is where the code tables are maintained one
+            </p>
+        </div>
+        
+    </div>
+
+   
+</body>
+
+</html>

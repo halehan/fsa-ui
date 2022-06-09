@@ -1,0 +1,482 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+
+  <mat-accordion>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+      style="margin-top: 60px; margin-left: 20px;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Unbalanced Purchase Orders by Year(2017-2019) and Agency
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? '' : 'Click to View Unbalanced Purchase Orders'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <div style="margin-top:10px;" class="card tight panel">
+            <div class="card-header">Unbalanced Purchase Order List (Po Final is true) 2017-2019</div>
+            <div class="card-body">
+              <mat-table #unBalancedFinalSort="matSort" [dataSource]="unBalancedFinal" matSort>
+
+                <ng-container matColumnDef="bidNumber">
+                  <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef mat-sort-header> Bid
+                  </mat-header-cell>
+                  <mat-cell fxFlex="120px" *matCellDef="let row"> {{row.bidNumber}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="poNumber">
+                  <mat-header-cell fxFlex="130px" *matHeaderCellDef mat-sort-header>PO Number</mat-header-cell>
+                  <mat-cell fxFlex="130px" *matCellDef="let row"> {{row.poNumber}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="adminFeeDue">
+                  <mat-header-cell fxFlex="85px" *matHeaderCellDef mat-sort-header> Admin Fee </mat-header-cell>
+                  <mat-cell fxFlex="85px" *matCellDef="let row">{{row.adminFeeDue | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="balance">
+                  <mat-header-cell fxFlex="85px" *matHeaderCellDef mat-sort-header> Balance </mat-header-cell>
+                  <mat-cell fxFlex="85px" *matCellDef="let row">{{row.balance | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="payment">
+                  <mat-header-cell fxFlex="85px" *matHeaderCellDef mat-sort-header> Payment </mat-header-cell>
+                  <mat-cell fxFlex="85px" *matCellDef="let row">{{row.payment | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="paymentBalance">
+                  <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Payment Bal. </mat-header-cell>
+                  <mat-cell fxFlex="90px" *matCellDef="let row">{{row.paymentBalance | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="acceptablePaymentBalance">
+                  <mat-header-cell fxFlex="130px" *matHeaderCellDef mat-sort-header> Acceptable Bal. </mat-header-cell>
+                  <mat-cell fxFlex="130px" *matCellDef="let row">{{row.acceptablePaymentBalance | currency}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="unbalancedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: unbalancedColumns"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}"></mat-row>
+
+
+              </mat-table>
+              <mat-paginator #finalPaginator [length]="1000" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 250]">
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div style="margin-top:10px; " class="card tight panel">
+            <div class="card-header">Unbalanced Purchase Order List (Po Final is false) 2017-2019</div>
+            <div class="card-body">
+              <mat-table #unBalancedNotFinalSort="matSort" [dataSource]="unBalancedNotFinal" matSort>
+
+                <ng-container matColumnDef="bidNumber">
+                  <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef mat-sort-header> Bid
+                  </mat-header-cell>
+                  <mat-cell fxFlex="120px" *matCellDef="let row"> {{row.bidNumber}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="poNumber">
+                  <mat-header-cell fxFlex="130px" *matHeaderCellDef mat-sort-header>PO Number</mat-header-cell>
+                  <mat-cell fxFlex="130px" *matCellDef="let row"> {{row.poNumber}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="adminFeeDue">
+                  <mat-header-cell fxFlex="85px" *matHeaderCellDef mat-sort-header> Admin Fee </mat-header-cell>
+                  <mat-cell fxFlex="85px" *matCellDef="let row">{{row.adminFeeDue | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="balance">
+                  <mat-header-cell fxFlex="85px" *matHeaderCellDef mat-sort-header> Balance </mat-header-cell>
+                  <mat-cell fxFlex="85px" *matCellDef="let row">{{row.balance | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="payment">
+                  <mat-header-cell fxFlex="85px" *matHeaderCellDef mat-sort-header> Payment </mat-header-cell>
+                  <mat-cell fxFlex="85px" *matCellDef="let row">{{row.payment | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="paymentBalance">
+                  <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Payment Bal. </mat-header-cell>
+                  <mat-cell fxFlex="90px" *matCellDef="let row">{{row.paymentBalance | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="acceptablePaymentBalance">
+                  <mat-header-cell fxFlex="130px" *matHeaderCellDef mat-sort-header> Acceptable Bal. </mat-header-cell>
+                  <mat-cell fxFlex="130px" *matCellDef="let row">{{row.acceptablePaymentBalance | currency}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="unbalancedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: unbalancedColumns"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}"></mat-row>
+
+
+              </mat-table>
+              <mat-paginator #notFinalPaginator [length]="1000" [pageSize]="10" [pageSizeOptions]="[10, 25, 50, 250]">
+              </mat-paginator>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+      style="margin-top: 5px; margin-left: 20px;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Ledger by Year and Agency. Purchase Orders with an outstanding balance
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? '' : 'Click to View Purchase Orders and Drill Down to Individual Purchase Orders'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+
+      <div class="row">
+
+
+        <div class="col-md-6">
+          <div style="margin-top:10px;margin-bottom: 20px;" class="card tight panel">
+            <div class="card-header">Report Ledger by Year and Agency </div>
+            <div class="card-body">
+              <mat-table #reportAgencyYearSort="matSort" [dataSource]="reportCityAgency" matSort>
+
+                <ng-container matColumnDef="year">
+                  <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header>Year</mat-header-cell>
+                  <mat-cell fxFlex="90px" *matCellDef="let row"> {{row.year}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="cityAgency">
+                  <mat-header-cell fxFlex="240px" *matHeaderCellDef mat-sort-header> Agency </mat-header-cell>
+                  <mat-cell fxFlex="240px" *matCellDef="let row">{{row.cityAgency }}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="adminFee">
+                  <mat-header-cell fxFlex="130px" *matHeaderCellDef mat-sort-header> Admin Fee Due </mat-header-cell>
+                  <mat-cell fxFlex="130px" *matCellDef="let row">{{row.adminFee | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="payment">
+                  <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> Payment </mat-header-cell>
+                  <mat-cell fxFlex="120px" *matCellDef="let row">{{row.payment | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="balance">
+                  <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> Payment Bal. </mat-header-cell>
+                  <mat-cell fxFlex="120px" *matCellDef="let row">{{row.balance | currency}}</mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="reportCityAgencyCols"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: reportCityAgencyCols"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="getLevel2(row)"></mat-row>
+
+
+              </mat-table>
+              <mat-paginator #reportAgencyYearPaginator [length]="1000" [pageSize]="10"
+                [pageSizeOptions]="[10, 25, 50, 250]">
+              </mat-paginator>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div style="margin-top:10px; margin-right:10px;" class="card tight panel">
+            <div class="card-header">Purchase Orders With Payments {{selectedCityAgency}} - {{selectedYear}} -
+              ${{selectedBalance}}</div>
+            <div class="card-body">
+              <mat-table #reportAgencyYearSort2="matSort" [dataSource]="reportCityAgency2" matSort>
+
+                <ng-container matColumnDef="poNumber">
+                  <mat-header-cell class="pull-left" fxFlex="150px" *matHeaderCellDef mat-sort-header>PO Number
+                  </mat-header-cell>
+                  <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.poNumber}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="year">
+                  <mat-header-cell class="pull-left" fxFlex="50px" *matHeaderCellDef mat-sort-header>Year
+                  </mat-header-cell>
+                  <mat-cell fxFlex="50px" *matCellDef="let row"> {{row.year}} </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="dealerName">
+                  <mat-header-cell fxFlex="240px" *matHeaderCellDef mat-sort-header>Dealer</mat-header-cell>
+                  <mat-cell fxFlex="240px" *matCellDef="let row"> {{row.dealerName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="sumFee">
+                  <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> Admin Fee Due </mat-header-cell>
+                  <mat-cell fxFlex="120px" *matCellDef="let row">{{row.sumFee | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="sumPayment">
+                  <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Payments </mat-header-cell>
+                  <mat-cell fxFlex="90px" *matCellDef="let row">{{row.sumPayment | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="balance">
+                  <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header>Balance</mat-header-cell>
+                  <mat-cell fxFlex="90px" *matCellDef="let row">{{row.balance | currency}}</mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="reportCityAgencyPayments"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: reportCityAgencyPayments"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}"></mat-row>
+
+
+              </mat-table>
+              <mat-paginator #reportAgencyYearPaginator2 [length]="1000" [pageSize]="10"
+                [pageSizeOptions]="[10, 25, 50, 250]">
+              </mat-paginator>
+
+            </div>
+
+            <div class="card-header">Purchase Orders Without Payments </div>
+            <div class="card-body">
+              <mat-table #reportAgencyYearSort3="matSort" [dataSource]="reportCityAgency3" matSort
+                #reportCityAgencySort3="matSort">
+
+                <ng-container matColumnDef="poNumber">
+                  <mat-header-cell class="pull-left" fxFlex="150px" *matHeaderCellDef mat-sort-header>PO Number
+                  </mat-header-cell>
+                  <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.poNumber}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="year">
+                  <mat-header-cell class="pull-left" fxFlex="50px" *matHeaderCellDef mat-sort-header>Year
+                  </mat-header-cell>
+                  <mat-cell fxFlex="50px" *matCellDef="let row"> {{row.year}} </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="dealerName">
+                  <mat-header-cell fxFlex="240px" *matHeaderCellDef mat-sort-header>Dealer</mat-header-cell>
+                  <mat-cell fxFlex="240px" *matCellDef="let row"> {{row.dealerName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="sumFee">
+                  <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> Admin Fee Due </mat-header-cell>
+                  <mat-cell fxFlex="120px" *matCellDef="let row">{{row.sumFee | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="sumPayment">
+                  <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> Payments </mat-header-cell>
+                  <mat-cell fxFlex="90px" *matCellDef="let row">{{row.sumPayment | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="balance">
+                  <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header>Balance</mat-header-cell>
+                  <mat-cell fxFlex="90px" *matCellDef="let row">{{row.balance | currency}}</mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="reportCityAgencyNoPayments"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: reportCityAgencyNoPayments"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}"></mat-row>
+
+
+              </mat-table>
+              <mat-paginator #reportAgencyYearPaginator3 [length]="1000" [pageSize]="10"
+                [pageSizeOptions]="[10, 25, 50, 250]">
+              </mat-paginator>
+
+            </div>
+
+
+
+          </div>
+        </div>
+
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+      style="margin-top: 5px; margin-left: 20px;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Partner Distributions 2017-2019
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? '' : 'Click to View Cumulative Fees Paid and Percentages of Fees Paid'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+
+
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <div style="margin-top:10px; margin-bottom: 10px;" class="card tight panel">
+            <div class="card-header">Payee Partner Fee Distribution</div>
+            <div #payeeChart class="card-body">
+
+              <!--     <div #payeeChart></div>  -->
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-6">
+          <div style="margin-top:10px; margin-bottom: 20px;" class="card tight panel">
+            <div class="card-header">Distribution for Partner Payees for 2017-2019</div>
+            <div #pieChart class="card-body">
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+      style="margin-top: 5px; margin-left: 20px;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Top 10 Dealer Volume and Top 10 Agency Volume
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? '' : 'Click to View Top 10 Dealer Volume and Top 10 Agency Volume'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+
+
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <div style="margin-top:10px; margin-bottom: 20px;" class="card tight panel">
+            <div class="card-header">Distribution for Partner Payees for 2017-2019</div>
+            <div #topVendorChart class="card-body">
+
+
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-6">
+          <div style=" margin-top:10px; margin-bottom: 20px;" class="card tight panel">
+            <div class="card-header">Distribution for Partner Payees for 2017-2019</div>
+            <div #topAgencyChart class="card-body">
+
+
+
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+      style="margin-top: 5px; margin-left: 20px;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Purchase Order Amounts for Active and Inactive Bids
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? '' : 'Click to View Purchase Order Amounts for Active and Inactive Bids'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <div style="margin-top:10px; margin-bottom: 20px;" class="card tight panel">
+            <div class="card-header">Purchase Order Amounts Active Bids</div>
+            <div #activeBidChart class="card-body">
+
+
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-6">
+          <div style="margin-top:10px;  margin-bottom: 20px;" class="card tight panel">
+            <div class="card-header">Purchase Order Amounts InActive Bids</div>
+            <div #inactiveBidChart class="card-body">
+
+
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+  <mat-accordion>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+      style="margin-top: 5px; margin-left: 20px;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Purchase Order Items and Payments Activity
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? '' : 'Click to View Purchase Order Items and Payments Activity'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+
+      <div class="row">
+
+        <div class="col-md-6">
+          <div style=" margin-top:10px;  margin-bottom: 20px;" class="card tight panel">
+            <div class="card-header">Purchase Order Item Activity</div>
+            <div #poItemActivityChart class="card-body"></div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div style="margin-top:10px; margin-bottom: 20px;" class="card tight panel">
+            <div class="card-header">Payment Activity</div>
+            <div #paymentActivityChart class="card-body"></div>
+          </div>
+        </div>
+
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</div>

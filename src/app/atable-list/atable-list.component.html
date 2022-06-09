@@ -1,0 +1,119 @@
+<app-navbar></app-navbar>
+<div class="padtop">
+  <div class="container-fluid">
+      <div class="row justify-content-center">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" data-background-color="red">
+                      <h4 class="title">Users</h4>
+                      <p class="category">List of application users</p>
+                  </div>
+                  <div class="card-content table-responsive">
+                      <table class="table table-hover">
+                          <thead>
+                              <tr>
+                                  <th>Login ID</th>
+                                  <th>First Name</th>
+                                  <th>Last Name</th>
+                                  <th>Phone</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let user of users">
+                                <td>{{user.loginId}}</td>
+                                <td>{{user.firstName}}</td>
+                                <td>{{user.lastName}}</td>
+                                <td>{{user.phoneMobile}}</td>
+                                <td>
+                                    <button (click)="onSelect(user)" class="btn btn-primary btn-simple btn-xs" rel="tooltip" title="Edit User" type="button">
+                                        <i  class="fa fa-pencil" aria-hidden="true"></i>
+                                                </button>
+                                    <button (click)="onSelectDelete(user)" class="btn btn-primary btn-simple btn-xs" rel="tooltip" title="Delete User" type="button">
+                                        <i  class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+   </div>
+</div>
+<br>
+
+<div class="container" *ngIf="selectedUser">
+
+        <form>
+                <div class="row">
+                        <div class="col-md-4 form-group">
+                                <label for="firstNnameInput">First Name</label>
+                                <input class="form-control" type="text" name="firstName" required [(ngModel)]="selectedUser.firstName" #firstName="ngModel" placeholder="Joel">
+                                    <div [hidden]="firstName.valid || firstName.pristine" class="error">
+                                        First Name is required.
+                                    </div>
+                        </div>
+
+
+                    <div class="col-md-4 form-group">
+                            <label for="lastNnameInput">Last Name</label>
+                            <input class="form-control" type="text" name="lastName" required [(ngModel)]="selectedUser.lastName" #lastName="ngModel" placeholder="Jones">
+                                <div [hidden]="lastName.valid || lastName.pristine" class="error">
+                                    Last Name is required.
+                                </div>
+
+                    </div>
+                    <div class="col-md-4 form-group">
+                            <label for="phoneMobileInput">Phone</label>
+                            <input class="form-control" type="text" name="phoneMobile" required [(ngModel)]="selectedUser.phoneMobile" #phoneMobile="ngModel" placeholder="(###) ###-####">
+                                <div [hidden]="phoneMobile.valid || phoneMobile.pristine" class="error">
+                                    Phone Number is required.
+                                </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-12 form-group">
+                                <label for="addressInput">Address</label>
+                                <input class="form-control" type="text" name="address" required [(ngModel)]="selectedUser.address" #address="ngModel" placeholder="Address">
+                                    <div [hidden]="address.valid || address.pristine" class="error">
+                                       Address is required.
+                                    </div>
+
+
+                        </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-4 form-group">
+                                <label for="CityInput">City</label>
+                                <input class="form-control" type="text" name="city" required [(ngModel)]="selectedUser.city" #city="ngModel" placeholder="City">
+                                    <div [hidden]="city.valid || city.pristine" class="error">
+                                        City is required.
+                                    </div>
+
+                        </div>
+                        <div class="col-md-4 form-group">
+                                <label for="CityInput">State</label>
+                                <input class="form-control" type="text" name="state" required [(ngModel)]="selectedUser.state" #state="ngModel" placeholder="State">
+                                    <div [hidden]="state.valid || state.pristine" class="error">
+                                        State is required.
+                                    </div>
+
+                        </div>
+                        <div class="col-md-4 form-group">
+                                <label for="zipInput">Zip</label>
+                                <input class="form-control" type="text" name="zip" required [(ngModel)]="selectedUser.zip" #zip="ngModel" placeholder="zip">
+                                    <div [hidden]="zip.valid || zip.pristine" class="error">
+                                        Zip is required.
+                                    </div>
+
+                        </div>
+                </div>
+                <div class="row">
+
+                </div>
+                    <button (click)="updateUser()" type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+        <br>

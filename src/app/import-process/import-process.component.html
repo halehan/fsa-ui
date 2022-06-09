@@ -1,0 +1,116 @@
+<app-sidebar></app-sidebar>
+<div class="container-fluid">
+
+  <div style="margin-top: 100px;" class="card tight panel">
+    <div class="card-header">Contract Item Import</div>
+
+    <div  class="card-content">
+
+      <mat-table class="mat-table" #table [dataSource]="contractItemDS" matSort>
+        
+        <ng-container matColumnDef="importFileName">
+          <mat-header-cell fxFlex="200px"  *matHeaderCellDef mat-sort-header>File Name</mat-header-cell>
+          <mat-cell fxFlex="200px" *matCellDef="let import"> {{import.importFileName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="importTable">
+          <mat-header-cell fxFlex="150px"  *matHeaderCellDef mat-sort-header>Table Name</mat-header-cell>
+          <mat-cell fxFlex="150px" *matCellDef="let import"> {{import.importTable}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="importDescription">
+          <mat-header-cell fxFlex="175px"  *matHeaderCellDef mat-sort-header>Description
+          </mat-header-cell>
+          <mat-cell fxFlex="175px" *matCellDef="let import"> {{import.importDescription}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="importByUser">
+          <mat-header-cell fxFlex="175px" *matHeaderCellDef mat-sort-header>Imported By
+          </mat-header-cell>
+          <mat-cell fxFlex="175px" *matCellDef="let import"> {{import.importByUser}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="importTime">
+          <mat-header-cell fxFlex="175px"  *matHeaderCellDef mat-sort-header>Import Date
+          </mat-header-cell>
+          <mat-cell fxFlex="175px" *matCellDef="let import"> {{import.importTime}} </mat-cell>
+        </ng-container>
+
+        
+
+        <ng-container matColumnDef="delete">
+          <mat-header-cell fxFlex="90px" *matHeaderCellDef > Roll Back </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let row">
+              <button [disabled]="readOnly" mat-icon-button color="primary" focusable="false" (click)="deleteImport(row)">
+                <i class="fa fa-trash-o  mat-icon"></i>
+              </button>  
+          </mat-cell>
+         </ng-container>
+
+
+
+        <mat-header-row  *matHeaderRowDef="contractItemColumns"></mat-header-row>
+        <mat-row  *matRowDef="let import; columns: contractItemColumns;"></mat-row>
+
+      </mat-table>
+
+      <mat-paginator
+      [length]="1000"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 25, 100, 500]">
+      </mat-paginator>
+
+
+     <div style="padding-right: 10px;" class="new-po form-group col-md-8">
+        <button mat-icon-button color="primary" focusable="false" (click)="fileUpload.click()">
+          <input style="display: none" type="file" class="file-input"
+          (change)="onFileSelected($event)" #fileUpload>
+          <i style="font-size: 18px;" class="fa fa-download"> </i>
+          Import Contract Items   {{fileName}}
+        </button>
+      </div>  
+
+      <div>
+        <i [hidden] = "!importing" class="fa fa-circle-o-notch fa-spin" style="font-size:24px; color: green; 
+        margin-left: 600px;"></i>
+      </div>
+
+     
+
+    
+
+   <!--  <input style="display: none" type="file" class="file-input"
+      (change)="onFileSelected($event)" #fileUpload>
+   -->
+
+
+      <br>
+
+     
+
+
+    </div>
+
+  </div>
+
+  <div style="width: 1000px; margin-top: 100px;" class="card tight panel">
+    <div class="card-header">Contract Item Import</div>
+    <div class="card-body">
+
+
+    </div>
+
+    <div class="new-po form-group col-md-6">
+      <button mat-icon-button color="primary" focusable="false" >
+        <i style="font-size: 18px;" class="fa fa-download"> </i>
+        Import Contract Items
+      </button>
+    </div>
+
+  </div>
+
+  <br>
+
+
+  <br>
+</div>

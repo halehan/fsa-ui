@@ -1,0 +1,129 @@
+.form-control{
+  
+  font-size: 13px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+}
+
+.label-small {
+  vertical-align: super;
+  font-size: 13px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+
+.gap{
+  padding-top: 15px;
+  padding-left: 10px;
+}
+
+
+.new-po {
+  padding-left: 900px;
+  
+}
+  
+.mat-cell{
+  font-size: 12px;
+  min-height: 1px;
+}
+
+.mat-cell:first-child{
+    padding-left: 1px;
+
+}
+
+.mat-footer-row{
+  width: 1000px;
+  min-height: 35px;
+}
+
+.mat-header-row{
+  width: 1050px;
+  min-height: 30px;
+  margin-left: 20px;
+}
+
+.mat-row{
+  width: 1050px;
+  min-height: 30px;
+  margin-left: 20px;
+ 
+}
+
+.mat-header-cell{
+  width: 1000px;
+  
+}
+
+.mat-table{
+  width: 900px;
+}
+
+.mat-header-cell{
+  width: 900px;
+}
+
+.mat-icon{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.mat-icon-button {
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+}
+
+
+.mat-toolbar {
+  width: 900px;
+  height: 30px;
+  padding-bottom: 4px;
+}
+
+.mat-row:hover {
+  background-color: #eafaea;
+}
+
+.mat-row:active {
+  background-color: gray
+}
+
+
+.pull-left {
+  padding-left: 0px;
+}
+
+.card-body{
+
+  padding: .5rem;
+  margin-left: 5px;
+
+}
+
+.card-header{
+  font-size: 1.00rem;
+  font-weight: 500;
+ 
+
+}
+
+.card{
+  width: 990px;
+  margin-left: 240px;
+}
+.row {
+    margin-left: 20px;
+}
+
+
+

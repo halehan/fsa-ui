@@ -1,0 +1,136 @@
+<app-navbar></app-navbar>
+<br>
+<br>
+<h1></h1>
+<!--  <div class="main-content">  -->
+  <div class="container-fluid">
+      <div class="row justify-content-md-center">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header" data-background-color="red">
+                      <h4 class="title"></h4>
+                      <p class="category">Complete your profile</p>
+                  </div>
+                  <div class="card-content">
+                      <form #myForm="ngForm">
+                          <div class="row">
+                       <!--       <div class="col-md-5">
+                                  <div class="form-group form-black label-floating is-empty">
+                                      <label class="control-label">Company (disabled)</label>
+                                      <input type="text" class="form-control" disabled>
+                                      {{value}}
+                                  </div>
+                              </div>  -->
+                       <!--       <div class="col-md-6">
+                                  <div class="form-group form-black label-floating is-empty">
+                                      <label class="control-label">Username</label>
+                                      <input  *ngIf="profile" type="text" value="{{profile.firstName}}" class="form-control" >
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="form-group form-black label-floating is-empty">
+                                      <label class="control-label">Logon Id</label>
+                                      <input type="loginId" disabled name="loginId" required [(ngModel)]="profile.loginId" #loginId="ngModel" class="form-control" >
+                                  </div>
+                              </div>  -->
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <div class="form-group form-black label-floating is-empty">
+                                      <label class="control-label">First Name</label>
+                                      <input type="text" name="firstName" required [(ngModel)]="profile.firstName" #firstName="ngModel" class="form-control" >
+                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                  <div class="form-group form-black label-floating is-empty">
+                                      <label class="control-label">Last Name</label>
+                                      <input type="text" name="lastName" required [(ngModel)]="profile.lastName" #lastName="ngModel" class="form-control" >
+                                  </div>
+                              </div>
+                              <div class="col-md-4">
+                                <div class="form-group form-black label-floating is-empty">
+                                    <label class="control-label">Phone Number</label>
+                                    <input type="text" name="phoneMobile" required [(ngModel)]="profile.phone" #phoneMobile="ngModel" class="form-control" >
+                                </div>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group form-black label-floating is-empty">
+                                      <label class="control-label">Address</label>
+                                      <input type="text"  name="address" required [(ngModel)]="profile.address" #address="ngModel" class="form-control" >
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <div class="form-group form-black label-floating is-empty">
+                                      <label class="control-label">City</label>
+                                      <input type="text" name="city" required [(ngModel)]="profile.city" #city="ngModel" class="form-control" >
+                                  </div>
+                              </div>
+
+                              <div class="col-md-4">
+                                <div class="form-group form-black label-floating is-empty">
+                       
+                                    <label for="typeahead-basic">Search for a state:</label>
+                               
+                                    <input id="typeahead-basic" type="text" class="form-control" name="state" [ngbTypeahead]="search" required [(ngModel)]="profile.state" #state="ngModel"  >
+                                </div>
+                            </div>
+
+                              <div class="col-md-4">
+                                  <div class="form-group form-black label-floating is-empty">
+                                      <label class="control-label">Zip Code</label>
+                                      <input type="text" name="zip" required [(ngModel)]="profile.zip" #zip="ngModel" class="form-control" >
+                                  </div>
+                              </div>
+                          </div>
+                        
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label>About Me</label>
+                                      <div class="form-group form-black label-floating is-empty">
+
+                                          <textarea class="form-control" name="about" required [(ngModel)]="profile.about" #about="ngModel" rows="5"></textarea>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          <button (click)="updateProfile()" type="submit" [disabled]="!myForm.dirty" class="btn btn-success pull-right">Update Profile</button>
+                          <div class="clearfix"></div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+        <!--  <div class="col-md-4">
+              <div class="card card-profile">
+                  <div class="card-avatar">
+                      <a href="#pablo">
+                          <img class="img" src="../assets/img/faces/marc.jpg" />
+                      </a>
+                  </div>
+
+                  <div class="content">
+                      <h6 class="category text-gray">CEO / Co-Founder</h6>
+                      <h4 class="card-title">Alec Thompson</h4>
+                      <p class="card-content">
+                          Don't be scared of the truth because we need to restart the human foundation in truth And I love you like Kanye loves Kanye I love Rick Owens’ bed design but the back is...
+                      </p>
+                      <a href="#pablo" class="btn btn-danger btn-round">Follow</a>
+                  </div>
+              </div>
+          </div>   -->
+      </div>
+  </div>
+  </div>
+ <!-- </div>  -->
+
+ <app-footer></app-footer>
+

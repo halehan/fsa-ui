@@ -1,0 +1,70 @@
+<div class="container">
+
+  <!--
+
+    displayedColumns = ['itemNumber', 'itemtype',  'itemDescription', 'itemAmount', 'qty', 'edit', 'addPayment'];
+  -->
+
+<div>
+             
+    <mat-table *ngIf="itemDataSource" #table [dataSource]="itemDataSource" matSort>
+  
+      <ng-container matColumnDef="itemNumber">
+        <mat-header-cell fxFlex="125px" *matHeaderCellDef mat-sort-header> Item Number </mat-header-cell>
+        <mat-cell fxFlex="125px" *matCellDef="let row"> {{row.itemNumber}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="itemType">
+        <mat-header-cell fxFlex="200px" *matHeaderCellDef mat-sort-header>Item Type</mat-header-cell>
+        <mat-cell fxFlex="200px" *matCellDef="let row"> {{row.itemType}} </mat-cell>
+      </ng-container>
+  
+     <ng-container matColumnDef="itemDescription">
+        <mat-header-cell fxFlex="275px" *matHeaderCellDef mat-sort-header> Item Description </mat-header-cell>
+        <mat-cell fxFlex="275px" *matCellDef="let row">{{row.itemDescription}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="itemAmount">
+        <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Item Amount </mat-header-cell>
+        <mat-cell fxFlex="100px" *matCellDef="let row">{{row.itemAmount | currency}}</mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="qty">
+        <mat-header-cell fxFlex="175px" *matHeaderCellDef mat-sort-header>Qty Ordered</mat-header-cell>
+        <mat-cell fxFlex="175px" *matCellDef="let row">{{row.qty}}</mat-cell>
+      </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header> Edit </mat-header-cell> 
+  
+            <mat-cell fxFlex="50px" *matCellDef="let row">
+                <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)">
+                    <i class="fa fa-pencil mat-icon"></i>
+                </button>  
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="addPayment">
+                <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header> Add Payment </mat-header-cell>
+                <mat-cell fxFlex="175px" *matCellDef="let row">
+                    <button mat-icon-button color="primary" focusable="false" (click)="newPayment(row)">
+                        <i class="fa fa-plus mat-icon"></i>
+                    </button>  
+                </mat-cell>
+          </ng-container>
+    
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  
+    
+    </mat-table>
+  
+            <mat-paginator 
+                [length]="1000"
+                [pageSize]="5"
+                [pageSizeOptions]="[5, 25, 100, 500]">
+            </mat-paginator>
+  
+  <br><hr> 
+
+</div>

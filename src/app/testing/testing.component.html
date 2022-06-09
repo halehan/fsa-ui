@@ -1,0 +1,377 @@
+<app-navbar></app-navbar>
+
+
+<div [hidden]="isProd()" class="container pt-2">
+
+  <div class="row">
+    <div class="col mt-5">
+
+      <div class="container">
+
+        <div class="example-header">
+
+          <div style="background-color: white" class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h1 class="display-4">Testing Progess</h1>
+              <p class="lead">The following table of issues have all of the UI mods that are slated to be tested.
+                If the status is complete they are ready to be tested and Incomplete means they are still pending.
+              </p>
+            </div>
+          </div>
+
+          <div style="background-color: white" class="jumbotron jumbotron-fluid">
+            <div class="container">
+              <h1 class="display-4">{{appVersion}} - {{buildDate}} fixes</h1>
+              <p class="lead">The following table of issues represent what has been corrected and ready to test.
+              </p>
+            </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" style="width:170px;">Issue Number</th>
+                  <th scope="col" style="width:200px;">Component</th>
+                  <th scope="col" style="width:150px;">Issue</th>
+                  <th scope="col" style="width:100px;">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+
+
+                <tr>
+                  <th scope="row">CPP-19</th>
+                  <td>Payment Detail</td>
+                  <td>Add Qty Delivered @ Payment Level.
+                  </td>
+                  <td>In Review</td>
+                </tr>
+                <tr>
+                  <th scope="row">Test Case CPP-19</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 550px;">Login as User</li>
+                      <li>Choose Payment Processing from menu</li>
+                      <li>Search for PO using Bid Number or Po Number with at least one Item</li>
+                      <li>Select any Item in the Purchase Order Item List</li>
+                      <li>Click New Payment</li>
+                      <li>Enter required fields and Qty Delivered</li>
+                      <li>Save</li>
+                      <li>Verify that the Qty Delivered was saved. </li>
+                      <li>**Verify that you can also modify the Qty Delivered field for Payment record and save.</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="row">CPP-21</th>
+                  <td>Lock Payments</td>
+                  <td>Locked by Date Inclusive of Start and End Dates
+                  </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case CPP-21</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Logon as Admin</li>
+                      <li>Search Payments => Lock Payment Records</li>
+                      <li>Enter Start Date of 01-01-2000 End Date 02-01-2020 </li>
+                      <li>Click Unlock Payments. (This will clear all locked records to avoid confusion)</li>
+                      <li>Enter Start and End Dates and click on Lock payments</li>
+                      <li>Verify that the Payment Date is inclusive of the Start and End Date</li>
+                      <li>Ex Start Date 01-09-2019 End Date: 01-09-2019</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="row">CPP-26</th>
+                  <td>Add Assessed Date</td>
+                  <td>Add Vendor, Vendor Amount, Assessed Date, and Bid as a Required Fields.
+                  </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case 1 CPP-26</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Logon as user</li>
+                      <li>Vendor Fines</li>
+                      <li>Click New Vendor Fine </li>
+                      <li>Enter required columns for Vendor Fine (Bid Number, Vendor, Status, Type, Reason Amount,
+                        Assessed Date)</li>
+                      <li>Save</li>
+                      <li>Verify that the fine record was inserted</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case 2 CPP-26</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Logon as user</li>
+                      <li>Vendor Fines</li>
+                      <li>Click Edit Icon (Pencil)</li>
+                      <li>Modify some required fields and leave null. Validate that it won’t allow save.</li>
+                      <li>Modify the values in that it validates and save</li>
+                      <li>Verify that the fine record is saved</li>
+                    </ol>
+                  </td>
+                </tr>
+
+
+
+
+                <tr>
+                  <th scope="row">CPP-30</th>
+                  <td>Vendor Fines</td>
+                  <td>Need to update when you click save </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case CPP-30</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Logon as User</li>
+                      <li>Choose Vendor Fines</li>
+                      <li>Click on any Vendor Fine record</li>
+                      <li>Edit anyy field(s)</li>
+                      <li>Save</li>
+                      <li>Verify that the fine record is saved</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="row">CPP-31</th>
+                  <td>Vendor Fines</td>
+                  <td>Verify all users have access to fines. Currently just Supervisors have access.
+                  </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case CPP-31</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Logon as User</li>
+                      <li>Choose Vendor Fines</li>
+                      <li>Verify that you can see Vendor Fines</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="row">CPP-34</th>
+                  <td>Vendor Fines</td>
+                  <td>Add Filter for BidType, Cleanup Action Message ("Vendor Insert Added"), Remove Bid Delete Option.
+                  </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case CPP-34</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Table Maintenance > Bid Maintenance</li>
+                      <li>Verify Filter works. </li>
+                      <li>New Bid. Enter info. Verify that the record was inserted</li>
+                      <li>In Bid Number List Click on row that was just inserted</li>
+                      <li>Edit values Save. Verify that the save worked.</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="row">CPP-35</th>
+                  <td>Vendor Maintenance</td>
+                  <td>One at a time Vendor Insert not working. Add Vendor Active/Inactive, Remove Phone & Contact
+                  </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case 1 CPP-35</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Table Maintenance > Vendor Maintenance</li>
+                      <li>New Vendor </li>
+                      <li>Enter Vendor Name</li>
+                      <li>Check Active or leave blank</li>
+                      <li>Save</li>
+                      <li>Verify that the Vendor record was inserted</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case 2 CPP-35</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Table Maintenance > Vendor Maintenance</li>
+                      <li>New Vendor </li>
+                      <li>Enter Vendor Name</li>
+                      <li>Check Active or leave blank</li>
+                      <li>Save</li>
+                      <li>Verify that the Vendor edit was saved</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="row">CPP-37</th>
+                  <td>Bid Item Maintenance</td>
+                  <td>Add Search/Filter under Bid
+                  </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case CPP-37</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Table Maintenance > Bid Item Maintenance</li>
+                      <li>Verify Filter works for any string value in the list. Ex 26 should return all FSA19-VEL26.0
+                      </li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="row">CPP-38</th>
+                  <td>Partner Distribution Maintenance</td>
+                  <td>Add Search/Filter under Partner Distribution. Admin Fee details.
+                  </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case CPP-38</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Table Maintenance > Partner Distribution</li>
+                      <li>Verify Filter works for any string value in the list. Ex FF should return all FFCA partners
+                      </li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr>
+                  <th scope="row">CPP-40</th>
+                  <td>Purchase Order List, Purchase Order Item List</td>
+                  <td>Disable the ability to delete a PO or PO Item that have an associated payment.
+                  </td>
+                  <td>In Review</td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case 1 CPP-40</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Purchase Order</li>
+                      <li>Search for a PO that has items with payments applied to them</li>
+                      <li>Attempt to delete PO. </li>
+                      <li>Confirm that you are prompted with the following message</li>
+                      <li>Unable to delete Purchase Order. Purchase Order has applied payment(s).</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case 2 CPP-40</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Purchase Order</li>
+                      <li>Search for a PO that has items with payments applied to them</li>
+                      <li>Identify an item that has a payment applied and attempt to delete the item </li>
+                      <li>Confirm that you are prompted with the following message </li>
+                      <li>Unable to delete Purchase Order Item. Purchase Order Item has an applied payment. To delete a
+                        Purchase Order Item you must remove the applied payment.</li>
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case 3 CPP-40</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Purchase Order</li>
+                      <li>Search for a PO that DOES NOT have items with payments applied to them</li>
+                      <li>Attempt to delete PO. </li>
+                      <li>Verify that you can delete the PO </li>
+
+                    </ol>
+                  </td>
+                </tr>
+
+                <tr style="padding-left: 25px; ">
+                  <th scope="row">Test Case 4 CPP-40</th>
+                  <td>
+                  </td>
+                  <td>
+                    <ol>
+                      <li style="width: 500px;">Login as Admin</li>
+                      <li>Purchase Order</li>
+                      <li>Search for a PO that has Items WITHOUT payments applied to them</li>
+                      <li>Attempt to delete PO Item</li>
+                      <li>Verify that you can delete the PO Item</li>
+
+                    </ol>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+
+
+
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+  </div>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+
+
+            <ul style="margin-top: 40px;" class="list-unstyled components">
+                <li>
+                    <a [routerLink]="['/fee']" class="nav-link"
+                        [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                        <i class="fa fa-money"></i>&nbsp; Partner Distribution</a>
+                </li>
+
+                <li>
+                    <a [routerLink]="['/agency']" class="nav-link"
+                        [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                        <i class="fa fa-building" aria-hidden="true"></i>&nbsp; Purchaser Maintenance</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/vendor']" class="nav-link"
+                        [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                        <i class="fa fa-car"></i>&nbsp; Vendor Maintenance</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/bidType']" class="nav-link"
+                        [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                        <i class="fa fa-cogs"></i>&nbsp; Contract Maintenance</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/bidItemCodes']" class="nav-link"
+                        [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                        <i class="fa fa-file-code-o" aria-hidden="true"></i>&nbsp; Contract Item Maintenance</a>
+                </li>
+<!--
+                <li>
+                    <a [routerLink]="['/importPage']" class="nav-link"
+                        [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+                        <i class="fa fa-download" aria-hidden="true"></i>&nbsp; Import Process</a>
+                </li>
+            -->
+            </ul>
+
+
+        </nav>
+
+       <div id="content">
+           <app-navbar></app-navbar>  
+          
+        </div>  
+
+    </div>
+
+
+</body>
+
+</html>

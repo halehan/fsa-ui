@@ -1,0 +1,98 @@
+        <div style="width: 1150px;" class="card tight panel">
+           <div class="card-header">Purchase Order Item Details</div>  
+              <div class="card-body">  
+                <form [formGroup]="itemForm" >
+
+                <div class="row tight">
+               
+                            <div class="col-md-5 ">
+                                    <div class="form-group input-group-sm form-black label-floating is-empty">
+                                            <label class="label-small">Item Number - Type</label>
+                                            <select required class="form-control"  formControlName="itemNumber">
+                                                        <option *ngIf="newItem">Select Item </option>
+                                                    <option *ngFor="let item of itemTypeCodes" value={{item.itemNumber}}>
+                                                                {{item.itemNumber}} - {{ item.itemType}} 
+                                                    </option> 
+                                            </select>
+                                    </div>
+                                    <small class="form-text text-muted alert alert-danger" *ngIf="itemForm.get('itemNumber').touched && itemForm.get('itemNumber').hasError('required')">Item Required!</small>
+                            </div>
+
+                            <div class="col-md-5">
+                                    <div class="form-group input-group-sm form-black label-floating is-empty">
+                                            <label class="label-small">Item Make - Description - Model</label>
+                                            <select required class="form-control"  formControlName="bidItemCodeId">
+                                                <option> Select Item Type</option>
+                                                    <option *ngFor="let item of itemTypeMakeCodes" value={{item.id}}>
+                                                               {{item.itemMake}} - {{ item.itemDescription}} - {{item.itemModelNumber}}
+                                                </option> 
+                                            </select>
+                                    </div>
+                                    <small class="form-text text-muted alert alert-danger" *ngIf="itemForm.get('bidItemCodeId').touched && itemForm.get('bidItemCodeId').hasError('required')">Item Required!</small>
+                            </div>
+
+                            <div
+                            class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+                            <label class="label-small">Estimated Delivery Date</label>
+                            <input type="text" class="form-control" Required
+                                    formControlName="estimatedDeliveryDate"
+                                    placeholder="Estimated Delivery Date" bsDatepicker
+                                    [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+                           <div style="line-height: 1.2; font-size: .90rem; padding: 0.95rem 1.25rem;"
+                                    [hidden]="estimatedDeliveryDateValid"
+                                    class="alert alert-danger">
+                                    {{messageEstimatedDeliveryDate}}
+                            </div>
+
+                            </div>
+                                                    
+                            <div class="col-md-2">
+                                    <div class="form-group input-group-sm form-black label-floating is-empty">
+                                        <label class="label-small">Qty Ordered</label>
+                                        <input #itemFocus type="text"  required formControlName="qty"   class="form-control" >
+                                    </div>
+                            </div> 
+
+                            <div class="col-md-2">
+                                    <div class="form-group input-group-sm form-black label-floating is-empty">
+                                        <label class="label-small">Item Amount</label>
+                                        <input currencyMask  style="text-align: right" type="text"  required formControlName="itemAmount"  class="form-control" >
+                                    </div>
+                            </div> 
+
+                            <div class="col-md-2">
+                                    <div class="form-group input-group-sm form-black label-floating is-empty">
+                                        <label class="label-small">FSA Fee</label>
+                                        <input currencyMask disabled type="text"  formControlName="fsafee"  class="form-control" >
+                                    </div>
+                            </div> 
+
+                            <div class="col-md-2">
+                                    <div class="form-group input-group-sm form-black label-floating is-empty">
+                                        <label class="label-small">FAC Fee</label>
+                                        <input currencyMask disabled type="text"  formControlName="facfee"  class="form-control" >
+                                    </div>
+                            </div> 
+
+                            <div class="col-md-2">
+                                    <div class="form-group input-group-sm form-black label-floating is-empty">
+                                        <label class="label-small">FFCA Fee</label>
+                                        <input currencyMask disabled type="text"  formControlName="ffcaFee"  class="form-control" >
+                                    </div>
+                            </div> 
+
+                            <div class="col-md-2">
+                                    <div class="form-group input-group-sm form-black label-floating is-empty">
+                                        <label class="label-small">Admin Fee</label>
+                                        <input currencyMask disabled type="text" formControlName="adminFeeDue"  class="form-control" >
+                                    </div>
+                            </div> 
+
+                            <div class="col-md-12">
+                                <button [disabled]="readOnly || itemForm.invalid || !itemForm.dirty || itemForm.pristine || !poService.enableItemSection" style="padding-left: 15px;" (click)="processItem()"class="btn btn-success pull-right">Save</button>
+                            </div>  
+                        </div>
+                        </form>      
+                </div>
+                                                   
+        </div>   

@@ -1,0 +1,18 @@
+Summary:  Creating a PO directly after deleting a PO was not working correctly
+Component: Purchase Order List/Detail
+
+Test Case:
+
+1. Logon to system
+2. Click on the Purchase Orders menu item
+3. Click on the select bid (*FSA18-VEL26.0)
+4. Click on the New PO button.
+5. Enter at minimum the required fields.
+3. Click the Save button on the PO details form
+4. Find the PO just created and click on the delete icon on the PO list, Choose yes when prompted to delete
+5. Click on the New PO button.
+6. Enter at minimum the required fields.
+7. Click the Save button on the PO details form.
+8. Verify that the PO just created is displayed on the PO List.
+
+* Select any Bid. 

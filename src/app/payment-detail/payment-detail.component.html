@@ -1,0 +1,157 @@
+<div style="width: 1150px; margin-left: 15px;" class="tight panel panel-primary">
+        <div class="card">
+                <div class="card-header">Payment Details</div>
+                <div class="card-body">
+
+                        <form [formGroup]="paymentForm">
+                                <div class="row">
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Payment Number</label>
+                                                        <input disabled type="text" formControlName="paymentNumber"
+                                                                class="form-control">
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Payment Amount</label>
+                                                        <input currencyMask placeholder="$.00" style="text-align: right"
+                                                                #paymentFocus type="text"
+                                                                formControlName="paymentAmount" class="form-control">
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Payment Date</label>
+                                                        <input type="text" formControlName="paymentDate"
+                                                                class="form-control" required bsDatepicker
+                                                                [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }">
+
+                                                        <div style="line-height: .95; font-size: .90rem; padding: 0.95rem 1.25rem;"
+                                                                [hidden]="datePaymentValid" class="alert alert-danger">
+                                                                {{messagePaymentDate}}
+                                                        </div>
+                                                </div>
+                                        </div>
+
+                                        <!--     <div class="col-md-2">
+                        <div class="form-group input-group-sm form-black label-floating is-empty">
+                        <label class="label-small">Actual Delivery Date</label>
+                       <input  type="text" formControlName="deliveryDate"  class="form-control" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" >
+                      </div>
+                      </div>   -->
+
+                                        <div
+                                                class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+                                                <label class="label-small">Actual Delivery Date</label>
+                                                <input type="text" class="form-control" Required
+                                                        formControlName="deliveryDate"
+                                                        placeholder="Actual Delivery Date" bsDatepicker
+                                                        [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+                                                <div style="line-height: 1.2; font-size: .90rem; padding: 0.95rem 1.25rem;"
+                                                        [hidden]="actualDeliveryDateValid" class="alert alert-danger">
+                                                        {{messageActualDeliveryDate}}
+                                                </div>
+
+                                        </div>
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Check Number</label>
+                                                        <input type="text" formControlName="paymentCheckNumber"
+                                                                class="form-control">
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">FSA Alloc</label>
+                                                        <input currencyMask disabled type="text" required
+                                                                formControlName="fsaAlloc" class="form-control">
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">FAC Alloc</label>
+                                                        <input currencyMask disabled type="text" required
+                                                                formControlName="facAlloc" class="form-control">
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">FFCA Alloc</label>
+                                                        <input currencyMask disabled type="text"
+                                                                formControlName="ffcaAlloc" class="form-control">
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Total Alloc</label>
+                                                        <input currencyMask disabled type="text"
+                                                                formControlName="totalAlloc" class="form-control">
+                                                </div>
+                                        </div>
+
+
+                               <!--         <div class="col-md-2">
+                                                        <div
+                                                                class="form-group input-group-sm form-black label-floating is-empty">
+                                                                <label class="label-small">Payment Status</label>
+                                                                <select  class="form-control" id="paymentStatus" formControlName="paymentStatus">
+                                                                                <option></option>
+                                                                                <option>Partial Payment</option>
+                                                                                <option>Over Payment</option>
+                                                                                <option>Shortage</option>
+                                                                                <option>See Comments</option>
+                                                                </select>  
+                                                        </div>
+                                        </div>   -->
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Qty Delivered</label>
+                                                        <input type="text" formControlName="qtyDelivered"
+                                                        class="form-control">
+                                                </div>
+                                       </div>
+
+
+                                        <div class="col-md-2">
+                                                <div
+                                                        class="form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Comments</label>
+                                                        <input type="text" formControlName="comment"
+                                                                class="form-control">
+                                                </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                                <button [disabled]="paymentForm.invalid || !paymentForm.dirty || readOnly"
+                                                        style="padding-left: 15px;" (click)="processPayment()"
+                                                        class="btn btn-success pull-right">Save</button>
+                                        </div>
+
+                                </div>
+                        </form>
+                </div>
+
+        </div>
+
+</div>
+
+<br>

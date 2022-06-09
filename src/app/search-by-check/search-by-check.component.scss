@@ -1,0 +1,142 @@
+
+
+.form-control{
+
+  font-size: 13px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+}
+
+.label-small {
+  vertical-align: super;
+  font-size: 13px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+
+.gap{
+  padding-top: 15px;
+  padding-left: 10px;
+}
+
+
+.new-po {
+  
+  padding-left: 100px;
+  padding-bottom: 10px;
+ 
+}
+
+.example-header{
+  padding-top: 1px;
+  padding-bottom: 2px;
+  width: 450px;
+
+}
+
+.mat-cell{
+  font-size: 12px;
+}
+
+.mat-cell:first-child{
+    padding-left: 1px;
+
+}
+
+.mat-footer-row{
+  width: 940px;
+  min-height: 2px;
+}
+
+.mat-header-row{
+  width:940px;
+  min-height: 1.5px;
+}
+
+.mat-row2{
+  width: 1050px;
+}
+
+.mat-row{
+  width: 940px;
+  min-height: 30px;
+  
+}
+
+.mat-header-cell{
+width: 940px;
+}
+
+.mat-table{
+  width: 940px;
+}
+
+
+.mat-icon{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.mat-toolbar {
+  width: 940px;
+  height: 40px;
+  padding-bottom: 4px;
+}
+
+.mat-toolbar-row {
+  width: 940px;
+  height: 35px;
+  padding-bottom: 4px;
+}
+
+.mat-row:hover {
+  background-color: #eafaea;
+}
+
+.mat-row:active {
+  background-color: gray
+}
+
+.mat-icon-button {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+
+.mat-expansion-panel {
+  margin-left: 40px; 
+  width: 1050px;
+
+}
+
+.mat-expansion-panel-body {
+   padding: 0;
+}
+
+.pull-left {
+  padding-left: 0px;
+}
+
+.loading{
+  color: white;
+  margin-top: 50px;
+  padding-top: 3px;
+  font-size: 200px;
+  width: 60px;
+  height: 60px;
+}
+
+.spinner {
+  padding-top: 200px;
+  padding-bottom: 50px;
+  width: 50px;
+  height: 60px;
+}

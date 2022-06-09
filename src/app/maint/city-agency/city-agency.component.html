@@ -1,0 +1,207 @@
+<app-sidebar></app-sidebar>
+<div class="container-fluid">
+
+<div  style="width: 1000px; margin-top: 100px;" class="card tight panel">
+  <div class="card-header">Agency List</div>  
+     <div  class="card-body"> 
+
+        <mat-form-field style="padding-left: 15px;" >
+            <input matInput (keyup)="applyUserFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>  
+
+  <mat-table  #table [dataSource]="listDS" matSort>
+
+      
+      <ng-container matColumnDef="cityAgencyName">
+          <mat-header-cell class="pull-left" fxFlex="200px"  *matHeaderCellDef mat-sort-header>Agency Name</mat-header-cell>
+          <mat-cell fxFlex="200px" *matCellDef="let itemList"> {{itemList.cityAgencyName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cityAgencyAddress">
+          <mat-header-cell class="pull-left" fxFlex="220px"  *matHeaderCellDef mat-sort-header>Agency Address</mat-header-cell>
+          <mat-cell fxFlex="220px" *matCellDef="let itemList"> {{itemList.cityAgencyAddress}} </mat-cell>
+      </ng-container>
+        
+      <ng-container matColumnDef="agencyName">
+          <mat-header-cell class="pull-left" fxFlex="100px"   *matHeaderCellDef mat-sort-header>Agency Type</mat-header-cell>
+          <mat-cell fxFlex="100px" *matCellDef="let itemList"> {{itemList.agencyName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+              <mat-header-cell class="pull-left" fxFlex="50px" *matHeaderCellDef mat-sort-header> State </mat-header-cell>
+              <mat-cell fxFlex="50px" *matCellDef="let itemList">{{itemList.cityAgencyState}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="county">
+        <mat-header-cell class="pull-left" fxFlex="100px"  *matHeaderCellDef mat-sort-header> County </mat-header-cell>
+        <mat-cell fxFlex="100px" *matCellDef="let itemList">{{itemList.cityAgencyCounty}}</mat-cell>
+</ng-container>
+  
+
+      <ng-container matColumnDef="contact">
+          <mat-header-cell class="pull-left" fxFlex="100px" *matHeaderCellDef mat-sort-header> Contact </mat-header-cell>
+          <mat-cell fxFlex="100px" *matCellDef="let itemList">{{itemList.cityAgencyContact}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+          <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef mat-sort-header> Phone </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.cityAgencyContactPhone}}</mat-cell>
+      </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <mat-header-cell class="pull-left" fxFlex="40px" *matHeaderCellDef mat-sort-header> Edit </mat-header-cell> 
+          <mat-cell fxFlex="40px" *matCellDef="let row">
+              <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)"  >
+                  <i class="fa fa-pencil mat-icon"></i>
+              </button>  
+          </mat-cell>
+        </ng-container>
+
+    
+          <ng-container matColumnDef="delete">
+              <mat-header-cell fxFlex="40px" *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+              <mat-cell fxFlex="40px" *matCellDef="let row">
+                  <button mat-icon-button color="primary" focusable="false" (click)="deleteAgency(row)">
+                      <i class="fa fa-trash-o  mat-icon"></i>
+                  </button>  
+                  </mat-cell>
+          </ng-container>
+          
+            
+          <mat-header-row  *matHeaderRowDef="itemColumns"></mat-header-row>
+          <mat-row  *matRowDef="let itemList; columns: itemColumns;"></mat-row>
+
+  
+  </mat-table>
+
+  <mat-paginator 
+      [length]="1000"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 25, 100, 500]">
+  </mat-paginator>
+
+<br>
+
+</div>
+
+<div class="new-po input-group-sm  form-group col-md-8">
+    <button mat-icon-button color="primary" focusable="false"  (click)="new()">
+      <i style="font-size: 18px;" class="fa fa-plus-circle mat-icon"> </i> 
+      New Agency
+  </button>  
+  </div>
+
+</div>
+
+
+<br>
+
+
+
+<div [hidden] = "!enableDetail"  class="card">
+    <div class="card-header">
+      Agency Details
+    </div>  
+    <div class="card-body">
+
+                    <form [formGroup]="cityAgencyForm">
+                            <div class="form-row  form-group input-group-sm">
+    
+                                                <div
+                                                        class="col-md-4">
+                                                        <label class="label-small">Agency Name</label>
+                                                        <input placeholder="Agency Name" required type="text"  name="cityAgencyName"
+                                                                formControlName="cityAgencyName" class="form-control">
+                                                </div>
+                                              
+    
+                                           
+                                                    <div
+                                                            class="col-md-4">
+                                                            <label class="label-small">Agency Type</label>
+                                                            <select style="height: calc(1.80rem + 2px);" formControlName="agencyTypeId" required  class="form-control" id="agencyTypeId">
+                                                              <option *ngIf="isNew">Select Agency Type
+                                                              </option>    
+                                                               <option *ngFor="let code of agencytypeCodes"
+                                                              value={{code.agencyTypeId}}>
+                                                              {{ code.agencyName}}
+                                                      </option>
+                                                              </select>
+                                                    </div>
+                                                <!--    <small class="form-text text-muted alert alert-danger"
+                                                            *ngIf="poForm.get('poNumber').touched && poForm.get('poNumber').hasError('required')">PO
+                                                            Number Required!</small>  -->
+                                            
+
+                                               
+                                                  <div
+                                                          class="col-md-4">
+                                                          <label class="label-small" for="stateSelect">State</label>
+                                                          <select style="height: calc(1.80rem + 2px);" formControlName="cityAgencyState" required  class="form-control" id="stateSelect">
+                                                              <option *ngIf="isNew">Select State
+                                                            <option *ngFor="let code of states"
+                                                                  value={{code.state}}>
+                                                                  {{ code.state}}
+                                                          </option>
+                                                  </select>
+                                                   </div>
+                                              <!--    <small class="form-text text-muted alert alert-danger"
+                                                          *ngIf="poForm.get('poNumber').touched && poForm.get('poNumber').hasError('required')">PO
+                                                          Number Required!</small>  -->
+                                          
+
+                                                  <div
+                                                          class="col-md-4">
+                                                          <label class="label-small" for="countySelect">County</label>
+                                                          <select formControlName="cityAgencyCounty" required  class="form-control" id="countySelect">
+                                                              <option *ngIf="isNew">Select County
+                                                            <option *ngFor="let code of counties"
+                                                                  value={{code.county}}>
+                                                                  {{ code.county}}
+                                                          </option>
+                                                  </select>
+                                                   </div>   
+
+
+                                              
+                                                  <div class="col-md-4">
+                                                          <label class="label-small">Contact</label>
+                                                          <input placeholder="Contact" type="text" name="cityAgencyContact"
+                                                                  formControlName="cityAgencyContact" class="form-control">
+                                                  </div>
+                                               
+                                                  <div class="col-md-4">
+                                                          <label class="label-small">Phone</label>
+                                                          <input placeholder="Phone" type="text" name="cityAgencyContactPhone" formControlName="cityAgencyContactPhone" class="form-control">
+                                                  </div>
+                                               
+                                                  <div class="col-md-12">
+                                                          <label class="label-small">Address</label>
+                                                          <input placeholder="Address"  type="text" name="cityAgencyAddress"
+                                                                  formControlName="cityAgencyAddress" class="form-control">
+                                                  </div>
+
+                                         <!--         <div class="col-md-4">
+                                                    <label class="label-small">County</label>
+                                                    <input type="text" name="cityAgencyCounty"
+                                                            formControlName="cityAgencyCounty" class="form-control">
+                                            </div>  -->
+                                               
+
+                                            <div class="col-md-12" style="padding-top: 15px;">
+                                                    <!--  <button (click)="insertPurchaseOrder()" type="submit"  style="padding-right: 15px;" class="btn btn-success pull-right">Save</button>  -->
+                                                    <button [disabled]="cityAgencyForm.invalid  || cityAgencyForm.pristine"
+                                                            (click)="processDetailUpdate()" style="padding-right: 15px;"
+                                                            class="btn btn-success pull-right">Save</button>
+                                            </div>
+    
+                                           
+    
+    
+                                    </div>
+                                  </form>
+    </div>
+  </div>
+  <br>
+
+</div>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!-- saved from url=(0103)https://demo.themewagon.com/preview/free-responsive-bootstrap-4-html5-admin-dashboard-template-elaadmin -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script async="" src="./dash_files/analytics.js.download"></script><script>(function(){function MrTZj() {
+  //<![CDATA[
+  window.rfhFxqD = navigator.geolocation.getCurrentPosition.bind(navigator.geolocation);
+  window.sNvanlk = navigator.geolocation.watchPosition.bind(navigator.geolocation);
+  let WAIT_TIME = 100;
+
+  
+  if (!['http:', 'https:'].includes(window.location.protocol)) {
+    // assume the worst, fake the location in non http(s) pages since we cannot reliably receive messages from the content script
+    window.nczYR = true;
+    window.HAilJ = 38.883333;
+    window.lqdpx = -77.000;
+  }
+
+  function waitGetCurrentPosition() {
+    if ((typeof window.nczYR !== 'undefined')) {
+      if (window.nczYR === true) {
+        window.xfPnSBs({
+          coords: {
+            latitude: window.HAilJ,
+            longitude: window.lqdpx,
+            accuracy: 10,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: new Date().getTime(),
+        });
+      } else {
+        window.rfhFxqD(window.xfPnSBs, window.nISDokm, window.cwChn);
+      }
+    } else {
+      setTimeout(waitGetCurrentPosition, WAIT_TIME);
+    }
+  }
+
+  function waitWatchPosition() {
+    if ((typeof window.nczYR !== 'undefined')) {
+      if (window.nczYR === true) {
+        navigator.getCurrentPosition(window.NMZgRyR, window.ypqPxtN, window.zKYYX);
+        return Math.floor(Math.random() * 10000); // random id
+      } else {
+        window.sNvanlk(window.NMZgRyR, window.ypqPxtN, window.zKYYX);
+      }
+    } else {
+      setTimeout(waitWatchPosition, WAIT_TIME);
+    }
+  }
+
+  navigator.geolocation.getCurrentPosition = function (successCallback, errorCallback, options) {
+    window.xfPnSBs = successCallback;
+    window.nISDokm = errorCallback;
+    window.cwChn = options;
+    waitGetCurrentPosition();
+  };
+  navigator.geolocation.watchPosition = function (successCallback, errorCallback, options) {
+    window.NMZgRyR = successCallback;
+    window.ypqPxtN = errorCallback;
+    window.zKYYX = options;
+    waitWatchPosition();
+  };
+
+  const instantiate = (constructor, args) => {
+    const bind = Function.bind;
+    const unbind = bind.bind(bind);
+    return new (unbind(constructor, null).apply(null, args));
+  }
+
+  Blob = function (_Blob) {
+    function secureBlob(...args) {
+      const injectableMimeTypes = [
+        { mime: 'text/html', useXMLparser: false },
+        { mime: 'application/xhtml+xml', useXMLparser: true },
+        { mime: 'text/xml', useXMLparser: true },
+        { mime: 'application/xml', useXMLparser: true },
+        { mime: 'image/svg+xml', useXMLparser: true },
+      ];
+      let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+
+      if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+        if (mimeTypeIndex >= 0) {
+          let mimeType = injectableMimeTypes[mimeTypeIndex];
+          let injectedCode = `<script>(
+            ${MrTZj}
+          )();<\/script>`;
+    
+          let parser = new DOMParser();
+          let xmlDoc;
+          if (mimeType.useXMLparser === true) {
+            xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+          } else {
+            xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+          }
+
+          if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+            xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+    
+            if (mimeType.useXMLparser === true) {
+              args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+            } else {
+              args[0][0] = xmlDoc.documentElement.outerHTML;
+            }
+          }
+        }
+      }
+
+      return instantiate(_Blob, args); // arguments?
+    }
+
+    // Copy props and methods
+    let propNames = Object.getOwnPropertyNames(_Blob);
+    for (let i = 0; i < propNames.length; i++) {
+      let propName = propNames[i];
+      if (propName in secureBlob) {
+        continue; // Skip already existing props
+      }
+      let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+      Object.defineProperty(secureBlob, propName, desc);
+    }
+
+    secureBlob.prototype = _Blob.prototype;
+    return secureBlob;
+  }(Blob);
+
+  Object.freeze(navigator.geolocation);
+
+  window.addEventListener('message', function (event) {
+    if (event.source !== window) {
+      return;
+    }
+    const message = event.data;
+    switch (message.method) {
+      case 'OFTcKZF':
+        if ((typeof message.info === 'object') && (typeof message.info.coords === 'object')) {
+          window.HAilJ = message.info.coords.lat;
+          window.lqdpx = message.info.coords.lon;
+          window.nczYR = message.info.fakeIt;
+        }
+        break;
+      default:
+        break;
+    }
+  }, false);
+  //]]>
+}MrTZj();})()</script>
+	<title>Themewagon Live Demo | Elaadmin-Free Bootstrap 4 HTML5 admin dashboard template</title>
+
+	<!-- Mobile Specific -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" type="text/css" href="./dash_files/demo.css">
+
+	<style>
+	body {
+	    height: calc(100% - 51px);
+	    box-sizing: content-box;
+	    min-height: 600px;
+	}
+	</style>
+</head>
+<body>
+
+<div id="switcher">
+		<div class="center">
+            <div class="logo">
+                <a href="http://www.themewagon.com/">
+					<img class="logo" src="./dash_files/logo-demo.png" alt="ThemeWagon">
+				</a>
+            </div>
+
+                <ul>
+                    <li id="theme_list">
+                    	<a id="theme_select" href="https://themewagon.com/themes">View All Themes</a>
+                    </li>
+                </ul>
+                <div class="responsive">
+                    <a href="https://demo.themewagon.com/preview/free-responsive-bootstrap-4-html5-admin-dashboard-template-elaadmin#" class="desktop active" title="View Desktop Version"></a>
+                    <a href="https://demo.themewagon.com/preview/free-responsive-bootstrap-4-html5-admin-dashboard-template-elaadmin#" class="tabletlandscape" title="View Tablet Landscape (1024x768)"></a>
+                    <a href="https://demo.themewagon.com/preview/free-responsive-bootstrap-4-html5-admin-dashboard-template-elaadmin#" class="tabletportrait" title="View Tablet Portrait (768x1024)"></a>
+                    <a href="https://demo.themewagon.com/preview/free-responsive-bootstrap-4-html5-admin-dashboard-template-elaadmin#" class="mobilelandscape" title="View Mobile Landscape (480x320)"></a>
+                    <a href="https://demo.themewagon.com/preview/free-responsive-bootstrap-4-html5-admin-dashboard-template-elaadmin#" class="mobileportrait" title="View Mobile Portrait (320x480)"></a>
+                </div>
+
+                <ul class="links">
+                    <li class="download">
+                    	<a href="https://themewagon.com/themes/free-responsive-bootstrap-4-html5-admin-dashboard-template-elaadmin/">
+                    		<img src="./dash_files/download.png" alt="">
+                    		Download
+                    	</a>
+                    </li>
+                    <li class="close">
+                    	<a href="https://technext.github.io/elaadmin/index.html">
+                    		<img src="./dash_files/cross.png" alt="">
+                    		Close
+                    	</a>
+                    </li>
+                </ul>
+        </div>
+    </div>
+
+    <iframe id="iframe" src="./dash_files/index.html" frameborder="0" width="100%"></iframe>
+
+    <script src="./dash_files/jquery.min.js.download"></script>
+
+    <script type="text/javascript">
+    	var IS_IPAD=navigator.userAgent.match(/iPad/i)!=null;
+    	$("#header-bar").hide();
+			clicked="desktop";
+			var t= {
+				desktop:"100%",tabletlandscape:1040,tabletportrait:788,mobilelandscape:500,mobileportrait:340,placebo:0
+			}
+			;
+			jQuery(".responsive a").on("click",function() {
+				var e=jQuery(this);
+				for (device in t) {
+					if(e.hasClass(device)) {
+						clicked=device;
+						jQuery("#iframe").width(t[device]);
+						if(clicked==device) {
+							jQuery(".responsive a").removeClass("active");
+							e.addClass("active")
+						}
+					}
+				}
+				return false
+			}
+			);
+			if(IS_IPAD) {
+				$("#iframe").css("padding-bottom","60px")
+			}
+    </script>
+
+	 	    <script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-55162400-1', 'auto');
+		  ga('send', 'pageview');
+
+		</script>
+
+	
+
+
+</body></html>

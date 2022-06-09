@@ -1,0 +1,17 @@
+Summary:  Hitting save multiple times after creating a New PO doesn't work.  
+Component: Purchase Order Detail
+
+Test Case:
+
+1. Logon to system
+2. Click on the Purchase Orders menu item
+3. Click on the select bid (*FSA18-VEL26.0)
+4. Click on the New PO button.
+5. Enter only the required fields on the PO Details form.
+6. Click the Save button on the PO Details form
+7. Verify the save was successful.  You should see the new PO in the PO List above
+8. Without clicking off of the PO Details modify the PO and add the rest of the fields
+9. Click the Save button on the PO details form.
+10. Verify that the PO just created is displayed on the PO List. Verify that the save was successful.
+
+* Select any Bid. 

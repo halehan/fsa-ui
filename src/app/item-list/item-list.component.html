@@ -1,0 +1,109 @@
+<br>
+            <div  [hidden] = "!enableList" style="width: 1150px;" class="card tight panel">
+                    <div class="card-header">Purchase Order Items</div>  
+                       <div  class="card-body"> 
+
+                    <mat-table  #table [dataSource]="itemListDS" matSort>
+
+                        <ng-container matColumnDef="itemNumber">
+                            <mat-header-cell class="pull-left" fxFlex="90px"  *matHeaderCellDef mat-sort-header>Item Number</mat-header-cell>
+                            <mat-cell fxFlex="90px" *matCellDef="let itemList"> {{itemList.itemNumber}} </mat-cell>
+                        </ng-container>
+                          
+                        <ng-container matColumnDef="itemType">
+                            <mat-header-cell class="pull-left" fxFlex="275px"   *matHeaderCellDef mat-sort-header>Item Type</mat-header-cell>
+                            <mat-cell fxFlex="275px" *matCellDef="let itemList"> {{itemList.itemType}} </mat-cell>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="itemMake">
+                                <mat-header-cell class="pull-left" fxFlex="80px"  *matHeaderCellDef mat-sort-header> Item Make</mat-header-cell>
+                                <mat-cell fxFlex="80px" *matCellDef="let itemList">{{itemList.itemMake}}</mat-cell>
+                        </ng-container>
+                          
+                        <ng-container matColumnDef="itemDescription">
+                                <mat-header-cell class="pull-left" fxFlex="110px" *matHeaderCellDef mat-sort-header> Item Description </mat-header-cell>
+                                <mat-cell fxFlex="110px" *matCellDef="let itemList"> {{itemList.itemDescription}}</mat-cell>
+                        </ng-container>
+              
+                        <ng-container matColumnDef="itemModel">
+                            <mat-header-cell class="pull-left" fxFlex="160px"  *matHeaderCellDef mat-sort-header> Item Model </mat-header-cell>
+                            <mat-cell fxFlex="160px" *matCellDef="let itemList">{{itemList.itemModelNumber}}</mat-cell>
+                        </ng-container>
+              
+                        <ng-container matColumnDef="qty">
+                                <mat-header-cell class="pull-left" fxFlex="90px"  *matHeaderCellDef mat-sort-header> Qty Ordered</mat-header-cell>
+                                <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.qty}}</mat-cell>
+                        </ng-container>
+              
+                         <ng-container matColumnDef="itemAmount">
+                                <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef mat-sort-header> Item Amount </mat-header-cell>
+                                <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.itemAmount | currency}}</mat-cell>
+                         </ng-container>
+            
+                         <ng-container matColumnDef="adminFeeDue">
+                            <mat-header-cell class="pull-left" fxFlex="80px" *matHeaderCellDef mat-sort-header> Admin Fee </mat-header-cell>
+                            <mat-cell fxFlex="80px" *matCellDef="let itemList">{{itemList.adminFeeDue | currency}}</mat-cell>
+                         </ng-container>
+
+                         <ng-container matColumnDef="balance">
+                            <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef mat-sort-header> Item Balance </mat-header-cell>
+                            <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.balance | currency}}</mat-cell>
+                         </ng-container>
+              
+                          <ng-container matColumnDef="edit">
+                            <mat-header-cell class="pull-left" fxFlex="35px" *matHeaderCellDef mat-sort-header> Edit </mat-header-cell> 
+                            <mat-cell fxFlex="35px" *matCellDef="let row">
+                                <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)"  >
+                                    <i class="fa fa-pencil mat-icon"></i>
+                                </button>  
+                            </mat-cell>
+                          </ng-container>
+            
+                    <!--      <ng-container matColumnDef="payment">
+                             <mat-header-cell class="pull-left" fxFlex="70px" *matHeaderCellDef mat-sort-header>Payment</mat-header-cell> 
+                             <mat-cell fxFlex="70px" *matCellDef="let row">
+                                <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)">
+                                    <i class="fa fa-money" aria-hidden="true"></i>
+                                </button>  
+                             </mat-cell>
+                           </ng-container>
+                        -->
+                    
+                            <ng-container matColumnDef="delete">
+                                <mat-header-cell fxFlex="35px" *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+                                <mat-cell fxFlex="35px" *matCellDef="let row">
+                                    <button [disabled]="readOnly" mat-icon-button color="primary" focusable="false" (click)="deleteItem(row)">
+                                        <i class="fa fa-trash-o  mat-icon"></i>
+                                    </button>  
+                                    </mat-cell>
+                            </ng-container>
+                            
+                              
+                            <mat-header-row  *matHeaderRowDef="itemColumns"></mat-header-row>
+                            <mat-row  *matRowDef="let itemList; columns: itemColumns;"></mat-row>
+              
+                    
+                    </mat-table>
+            
+                    <mat-paginator 
+                        [length]="1000"
+                        [pageSize]="5"
+                        [pageSizeOptions]="[5, 25, 100, 500]">
+                    </mat-paginator>
+            
+            <br>
+               
+            </div>
+          </div>
+
+        <div style="margin-right: 25px;" class="new-po form-group col-md-8">
+            <button [disabled]="readOnly" mat-icon-button color="primary" focusable="false"  (click)="chain()">
+                <i style="font-size: 18px;" class="fa fa-plus-circle mat-icon"> </i> 
+             New Item 
+            </button>  
+        </div>
+
+ <app-item-detail [currentBid] = "currentBid" [payCd] = "payCd" [poId] = "poId" [hidden] = "!enableItemDetail"
+  (refreshItemList)="refreshItemListHandler($event)" (refreshDetailData)="refreshPoDetailHandler($event)" (refreshPoDetails)="refreshPoDetailHandler($event)" ></app-item-detail>  
+
+

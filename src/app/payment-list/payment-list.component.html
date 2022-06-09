@@ -1,0 +1,355 @@
+<div class="container">
+
+  <div class="search-header">
+
+    <div class="row">
+
+      <div class="col-md-3 gap">
+        <label style="padding-left: 5px;" for="bidTypeNnumberSelect2">Contract Number</label>
+
+        <select style="height: calc(1.80rem + 2px);" required (change)="filterBids($event.target.value)"
+          class="form-control" id="bidTypeNnumberSelect2">
+          <option>All</option>
+          <option *ngFor="let bn of bidNumbers" value={{bn.BidNumber}}>
+            {{bn.BidNumber}} - {{bn.BidTitle}}
+          </option>
+        </select>
+      </div>
+      <div style=" margin-left: 20px;" class="col-md-3 gap">
+        <label style="padding-left: 5px;" for="status2">PO Status</label>
+
+        <select style="height: calc(1.80rem + 2px);" required (change)="statusClicked($event.target.value)"
+          class="form-control" id="status">
+          <option>All</option>
+          <option *ngFor="let code of poStatusTypeCodes" value={{code.poStatusTypeCode}}>
+            {{ code.poStatusTypeCode}}
+          </option>
+        </select>
+      </div>
+
+      <div style="margin-left: 10px;" class="col-md-2 gap">
+        <mat-form-field class="gap">
+          <input matInput (keyup)="poValueChanged($event.target.value)" [ngModel]="poSearchVal" placeholder="PO Number">
+        </mat-form-field>
+      </div>
+
+      <div style="margin-top: 30px; margin-left: 80px;" class="col-md-2 gap">
+        <button mat-button [disabled]="!enableSearch" (click)="search()" type="submit"
+          class="mat-flat-button btn-success insert-button">Search</button>
+        <i [hidden]="!searching" class="fa fa-circle-o-notch fa-spin" style="font-size:24px; color: green; 
+                      margin-left: 525px;"></i>
+      </div>
+
+      <mat-form-field class="gap" *ngIf="showFilter()">
+        <input matInput (keyup)="applyUserFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+
+    </div>
+
+
+    <div [hidden]="!showFilter()" *ngIf="poDataSource" style="width: 1150px;" class="card tight panel">
+      <div class="card-header">Purchase Order List</div>
+      <div class="card-body">
+
+        <mat-table #table [dataSource]="poDataSource"   matSort #poListSort="matSort">
+
+          <ng-container matColumnDef="bidNumber">
+            <mat-header-cell class="pull-left" fxFlex="125px" *matHeaderCellDef mat-sort-header> Contract Number
+            </mat-header-cell>
+            <mat-cell fxFlex="125px" *matCellDef="let row"> {{row.bidNumber}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cityAgency">
+            <mat-header-cell fxFlex="200px" *matHeaderCellDef mat-sort-header>Purchaser</mat-header-cell>
+            <mat-cell fxFlex="200px" *matCellDef="let row"> {{row.cityAgency}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dealerName">
+            <mat-header-cell fxFlex="200px" *matHeaderCellDef mat-sort-header> Vendor </mat-header-cell>
+            <mat-cell fxFlex="200px" *matCellDef="let row">{{row.dealerName}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="poNumber">
+            <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header> PO Number </mat-header-cell>
+            <mat-cell fxFlex="150px" *matCellDef="let row">{{row.poNumber}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="poStatus">
+            <mat-header-cell fxFlex="75px" *matHeaderCellDef mat-sort-header> PO Status </mat-header-cell>
+            <mat-cell fxFlex="75px" *matCellDef="let row">{{row.poStatus}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dateReported">
+            <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> PO Reported Date </mat-header-cell>
+            <mat-cell fxFlex="120px" *matCellDef="let row">{{row.dateReported | dateFormatPipe}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="poIssueDate">
+            <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> PO Issue Date </mat-header-cell>
+            <mat-cell fxFlex="100px" *matCellDef="let row">{{row.poIssueDate | dateFormatPipe}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="poAmount">
+            <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> PO Amount </mat-header-cell>
+            <mat-cell fxFlex="90px" *matCellDef="let row">{{row.poAmount  | currency }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="adminFeeDue">
+            <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Admin Fee</mat-header-cell>
+            <mat-cell fxFlex="100px" *matCellDef="let row">{{row.adminFeeDue  | currency }}</mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'highlight': selectedRowIndex == row.id}"
+            (click)="onRowClicked(row)"></mat-row>
+
+        </mat-table>
+    
+        <mat-paginator #paginator  [length]="500" [pageSize]="10" [pageSizeOptions]="[10, 25, 100, 500]">
+        </mat-paginator>
+
+        <br>
+      </div>
+    </div>
+
+    <div [hidden]="!showNoRecordsMsg()" class="card-content"> {{recordsMsg}}
+      <div>
+        <hr [hidden]="!enableItemList">
+      </div>
+    </div>
+
+
+  </div>
+
+  <br>
+
+  <div [hidden]="!enableItemList" style="width: 1150px;" class="card tight panel">
+    <div class="card-header">Purchase Order Item List</div>
+    <div class="card-body">
+
+      <mat-table #table [dataSource]="itemListDS">
+
+        <ng-container matColumnDef="itemNumber">
+          <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef >Item Number
+          </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let itemList"> {{itemList.itemNumber}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="itemDescription">
+          <mat-header-cell class="pull-left" fxFlex="240px" *matHeaderCellDef >Item Description
+          </mat-header-cell>
+          <mat-cell fxFlex="240px" *matCellDef="let itemList"> {{itemList.itemDescription}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="itemMake">
+          <mat-header-cell class="pull-left" fxFlex="155px" *matHeaderCellDef> Item Make
+          </mat-header-cell>
+          <mat-cell fxFlex="155px" *matCellDef="let itemList">{{itemList.itemMake}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="itemModel">
+          <mat-header-cell class="pull-left" fxFlex="115px" *matHeaderCellDef > Item Model
+          </mat-header-cell>
+          <mat-cell fxFlex="115px" *matCellDef="let itemList">{{itemList.itemModelNumber}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="itemType">
+          <mat-header-cell class="pull-left" fxFlex="155px" *matHeaderCellDef > Item Type
+          </mat-header-cell>
+          <mat-cell fxFlex="155px" *matCellDef="let itemList">{{itemList.itemType}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="qty">
+          <mat-header-cell class="pull-left" fxFlex="50px" *matHeaderCellDef > Qty </mat-header-cell>
+          <mat-cell fxFlex="50px" *matCellDef="let itemList">{{itemList.qty}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="itemAmount">
+          <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef > Item Amount
+          </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.itemAmount  | currency }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="adminFeeDue">
+          <mat-header-cell class="pull-left" fxFlex="80px" *matHeaderCellDef > Admin Fee
+          </mat-header-cell>
+          <mat-cell fxFlex="80px" *matCellDef="let itemList">{{itemList.adminFeeDue | currency}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="balance">
+          <mat-header-cell class="pull-left" fxFlex="75px" *matHeaderCellDef > Balance </mat-header-cell>
+          <mat-cell fxFlex="75px" *matCellDef="let itemList">{{itemList.balance | currency}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentAmount">
+          <mat-header-cell class="pull-left" fxFlex="75px" *matHeaderCellDef > Payment Amount
+          </mat-header-cell>
+          <mat-cell fxFlex="75px" *matCellDef="let itemList">{{itemList.paymentAmount | currency}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <mat-header-cell class="pull-left" fxFlex="50px" *matHeaderCellDef > Edit </mat-header-cell>
+          <mat-cell fxFlex="50px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)">
+              <i class="fa fa-pencil mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="payment">
+          <mat-header-cell class="pull-left" fxFlex="50px" *matHeaderCellDef >Payment</mat-header-cell>
+          <mat-cell fxFlex="50px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)">
+              <i class="fa fa-money" aria-hidden="true"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="itemColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: itemColumns;" [ngClass]="{'highlight': selectedRowIndexItems == row.id}"
+          (click)="onItemRowClicked(row)"></mat-row>
+
+      </mat-table>
+
+      <br>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div [hidden]="!enablePaymentList" style="width: 1150px;" class="card tight panel">
+    <div class="card-header">Payments - Item: {{itemNumber}} - Item Type:
+      {{itemType}} </div>
+    <div class="card-body">
+
+      <mat-table #table [dataSource]="paymentListDS">
+
+        <ng-container matColumnDef="paymentNumber">
+          <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef >Payment Number
+          </mat-header-cell>
+          <mat-cell fxFlex="120px" *matCellDef="let itemList"> {{itemList.paymentNumber}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentCheckNum">
+          <mat-header-cell class="pull-left" fxFlex="100px" *matHeaderCellDef >Check Number
+          </mat-header-cell>
+          <mat-cell fxFlex="100px" *matCellDef="let itemList"> {{itemList.paymentCheckNum}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="qtyDelivered">
+          <mat-header-cell class="pull-left" fxFlex="115px" *matHeaderCellDef >Qty Delivered
+          </mat-header-cell>
+          <mat-cell fxFlex="115px" *matCellDef="let itemList"> {{itemList.qtyDelivered}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="fsaAlloc">
+          <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef > FSA Alloc
+          </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.fsaAlloc  | currency }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="facAlloc">
+          <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef > FAC Alloc
+          </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.facAlloc  | currency }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ffcaAlloc">
+          <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef >FFCA Alloc
+          </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.ffcaAlloc  | currency }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="totalAlloc">
+          <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef >Total Alloc
+          </mat-header-cell>
+          <mat-cell fxFlex="90px" *matCellDef="let itemList">{{itemList.totalAlloc  | currency }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentAmount">
+          <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef > Payment Amount
+          </mat-header-cell>
+          <mat-cell fxFlex="120px" *matCellDef="let itemList">{{itemList.paymentAmount  | currency }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentDate">
+          <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef > Payment Date
+          </mat-header-cell>
+          <mat-cell fxFlex="120px" *matCellDef="let itemList">{{itemList.paymentDate  | dateFormatPipe}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <mat-header-cell fxFlex="50px" *matHeaderCellDef > Edit </mat-header-cell>
+
+          <mat-cell fxFlex="50px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="onPaymentRowClicked(row)">
+              <i class="fa fa-pencil mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <mat-header-cell fxFlex="50px" *matHeaderCellDef > Delete </mat-header-cell>
+
+          <mat-cell fxFlex="50px" *matCellDef="let row">
+            <button [disabled]="readOnly" mat-icon-button color="primary" focusable="false" (click)="deletePayment(row)">
+              <i class="fa fa-trash-o  mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell fxFlex="50px" *matHeaderCellDef > Locked </mat-header-cell>
+          <mat-cell fxFlex="50px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false">
+              <i class={{row.icon}} aria-hidden="true"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+ <!--      <ng-container matColumnDef="verified">
+          <mat-header-cell fxFlex="45px" *matHeaderCellDef > Verified </mat-header-cell>
+          <mat-cell fxFlex="45px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false">
+              <i class={{row.verifyIcon}} aria-hidden="true"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+      -->
+
+        <mat-header-row *matHeaderRowDef="paymentColumns"></mat-header-row>
+        <!--  <mat-row *matRowDef="let row; columns: paymentColumns;"  [ngClass]="{'highlight': selectedRowIndexPayment == row.id}"  (click)="onPaymentRowClicked(row)"></mat-row>  -->
+        <mat-row *matRowDef="let row; columns: paymentColumns;"
+          [ngClass]="{'highlight': selectedRowIndexPayment == row.id}"></mat-row>
+
+      </mat-table>
+
+      <br>
+
+    </div>
+
+
+
+
+  </div>
+
+
+</div>
+
+<!-- <div [hidden]="!enableNewPayment" class="new-po form-group col-md-8">
+    <button mat-button (click)="newPayment()" type="submit" class="mat-flat-button btn-success insert-button">New
+      Payment</button>
+  </div> -->
+
+<div  [hidden]="!enableNewPayment" class="new-po form-group col-md-8">
+  <button [disabled]="readOnly" mat-icon-button color="primary" focusable="false" (click)="newPayment()">
+    <i style="font-size: 18px;" class="fa fa-plus-circle mat-icon"> </i>
+    New Payment
+  </button>
+</div>
+
+<app-payment-detail [paymentNumber]="paymentNumber" [itemId]="itemId" [poId]="poId" [payCd]="payCd" [bidType]="bidType"
+  [paymentId]="paymentId" [adminFeeRate]="adminFeeRate" [hidden]="!enablePaymentDetail"
+  (refreshPaymentList)="refreshPaymentListHandler($event)"></app-payment-detail>
+  

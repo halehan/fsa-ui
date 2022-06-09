@@ -1,0 +1,17 @@
+Summary:  PO Complete element on the Purchase Order Detail form is not reflecting what it is in the database.
+Component: Purchase Order Detail.PO Complete
+
+Test Case:
+
+1. Logon to system
+2. Click on the Purchase Orders menu item
+3. Click on the select bid (FSA18-VEL26.0)
+4. Click on the Edit button on any row.
+5. Verify that the row clicked does not have a PO Complete of Yes. If it does choose another.  
+3. In the PO Number search text box enter this 114749 LN52-61
+4. Click Search 
+5. Click on the Edit icon of the Purchase Order List for this row (Should be the only row)
+6. Verify that the PO Complete element is Yes.  It should be Yes for this row.
+
+To verify on the database
+Select poStatus from FsaCppPurchaseOrder where poNumber = '114749 LN52-61'

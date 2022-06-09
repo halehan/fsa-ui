@@ -1,0 +1,132 @@
+    <div class="search-header">
+          <div class="row">
+
+              <div  class="col-md-6 gap">
+
+                    <label style="padding-left: 5px;" for="bidTypeNnumberSelect2">Contract Number</label>
+    
+                        <select style="height: calc(1.80rem + 2px);" required  (change)="filterBids($event.target.value)" class="form-control"  
+                              id="bidTypeNnumberSelect2">
+                              <option>Select Contract</option>
+                              <option *ngFor="let bn of bidNumbers" value={{bn.BidNumber}}>
+                                            {{bn.BidNumber}} - {{bn.BidTitle}}
+                              </option>  
+                        </select>
+              </div>
+    
+                <div style="margin-top: 10px;  margin-left: 10px;" class="col-md-2 gap">
+                      <mat-form-field style="padding-bottom: 1.70em;" class="gap" >
+                        <input #searchInputFocus matInput (keyup)="statusClicked($event.target.value)"  placeholder="PO Number * Enabled">
+                    </mat-form-field>  
+                </div>
+  
+                <div style="margin-top: 30px; margin-left: 100px; height: calc(1.80rem + 2px);" class="col-md-2 gap">
+                      <button mat-raised-button matTooltip="Info about the action" mat-button [disabled]="!enableSearch" 
+                       (click)="search()" type="submit"  class="mat-flat-button btn-success insert-button">Search</button>  
+                      <i [hidden] = "!searching" class="fa fa-circle-o-notch fa-spin" style="font-size:24px; color: green; 
+                      margin-left: 600px;"></i>
+                </div>
+
+                <mat-form-field style="padding-left: 15px;" *ngIf="showFilter()">
+                    <input matInput (keyup)="applyUserFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>  
+
+             
+            </div>
+                
+      </div> 
+  
+      <div [hidden] = "!enablePoList" style="width: 1150px;" class="card tight panel">
+          <div class="card-header">Purchase Order List</div>  
+             <div  class="card-body">   
+             
+            <mat-table #table [dataSource]="poDataSource" matSort>
+
+              <ng-container matColumnDef="bidNumber">
+                <mat-header-cell class="pull-left" fxFlex="115px" *matHeaderCellDef mat-sort-header> Contract Number </mat-header-cell>
+                <mat-cell fxFlex="115px" *matCellDef="let row"> {{row.bidNumber}} </mat-cell>
+              </ng-container>
+          
+              <ng-container matColumnDef="cityAgency">
+                <mat-header-cell fxFlex="190px" *matHeaderCellDef mat-sort-header>Purchaser</mat-header-cell>
+                <mat-cell fxFlex="190px" *matCellDef="let row"> {{row.cityAgency}} </mat-cell>
+              </ng-container>
+          
+             <ng-container matColumnDef="dealerName">
+                <mat-header-cell fxFlex="200px" *matHeaderCellDef mat-sort-header> Vendor </mat-header-cell>
+                <mat-cell fxFlex="200px" *matCellDef="let row">{{row.dealerName}}</mat-cell>
+              </ng-container>
+          
+              <ng-container matColumnDef="poNumber">
+                <mat-header-cell fxFlex="145px" *matHeaderCellDef mat-sort-header> PO Number </mat-header-cell>
+                <mat-cell fxFlex="145px" *matCellDef="let row">{{row.poNumber}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="dateReported">
+                    <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> PO Reported Date  </mat-header-cell>
+                    <mat-cell fxFlex="120px" *matCellDef="let row">{{row.dateReported | dateFormatPipe}}</mat-cell>
+                  </ng-container>
+          
+              <ng-container matColumnDef="poIssueDate">
+                <mat-header-cell fxFlex="105px" *matHeaderCellDef mat-sort-header> PO Issue Date </mat-header-cell>
+                <mat-cell fxFlex="105px" *matCellDef="let row">{{row.poIssueDate | dateFormatPipe}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="poAmount">
+                    <mat-header-cell fxFlex="90px" *matHeaderCellDef mat-sort-header> PO Amount </mat-header-cell>
+                    <mat-cell fxFlex="90px" *matCellDef="let row">{{row.poAmount | currency}}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="balance">
+                  <mat-header-cell fxFlex="70px" *matHeaderCellDef mat-sort-header> Balance </mat-header-cell>
+                  <mat-cell fxFlex="70px" *matCellDef="let row">{{row.balance | currency}}</mat-cell>
+            </ng-container>
+    
+             <ng-container matColumnDef="edit">
+                    <mat-header-cell fxFlex="40px" *matHeaderCellDef > Edit </mat-header-cell> 
+          
+                    <mat-cell fxFlex="40px" *matCellDef="let row">
+                      <button mat-icon-button color="primary" focusable="false" (click)="onRowClicked(row)">
+                            <i class="fa fa-pencil mat-icon"></i>
+                        </button>  
+                    </mat-cell>
+              </ng-container>
+    
+                <ng-container matColumnDef="addPayment">
+                        <mat-header-cell fxFlex="40px" *matHeaderCellDef > Delete </mat-header-cell>
+                        <mat-cell fxFlex="40px" *matCellDef="let row">
+                            <button [disabled]="readOnly" mat-icon-button color="primary" focusable="false" (click)="deletePurchaseOrder(row)">
+                              <i class="fa fa-trash-o  mat-icon"></i>
+                            </button>  
+                        </mat-cell>
+                </ng-container>
+              
+              <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row  *matRowDef="let row; columns: displayedColumns"  [ngClass]="{'highlight': selectedRowIndex == row.id}" ></mat-row>
+          
+            </mat-table>
+                    <mat-paginator [hidden] = "!enablePoList"
+                        [length]="1000"
+                        [pageSize]="5"
+                        [pageSizeOptions]="[5, 25, 100, 500]">
+                    </mat-paginator>
+          
+          <div class="new-po form-group col-md-8">
+            <button [disabled]="readOnly" mat-icon-button color="primary" focusable="false"  (click)="newPurchaseOrder()">
+              <i style="font-size: 18px;" class="fa fa-plus-circle mat-icon"> </i> 
+              New Purchase Order 
+          </button>  
+          </div>
+  
+      </div>
+      </div>
+<br>
+     
+      <app-purchase-order-detail [hidden]="!enablePoDetail" [enableItemDetail] = "enableItemDetail" [poId] = "selectedPoId" [bidId]= "bidId" [isNew]="isNewPo" 
+      (refreshPurchaseOrderList)="refreshPurchaseOrderListHandler($event)"  >
+      </app-purchase-order-detail> 
+
+      <app-item-list [currentBid] = "currentBid" [poId] = "selectedPoId"  [payCd] = "selectedPayCd"  [hidden] = "!enableItemList"
+       ></app-item-list> 
+
+      <br>  

@@ -1,0 +1,61 @@
+<!-- <div class="container" style="margin-top:10px">
+<div class="row">
+  <div class="Absolute-Center is-Responsive">
+        <div class="col-sm-12 col-md-12 col-md-offset-1"> -->
+            <div class="green">
+                <div class="container" >
+                        <div class="row">
+                          <div class="Absolute-Center is-Responsive">
+                                <div class="col-md-offset-1">
+                                <div class="panel panel-default">
+                                   
+                                    <div class="panel-body">
+                                                                    
+
+  <h2 class="header">Register</h2>
+  <form [formGroup]="complexForm" (ngSubmit)="register(complexForm.value)">
+    <div class="form-group" [ngClass]="{'has-error':!complexForm.controls['firstName'].valid && complexForm.controls['firstName'].touched}">
+      <label class="label">First Name:</label>
+      <input class="form-control" type="text" placeholder="John" [formControl]="complexForm.controls['firstName']">
+      <div *ngIf="complexForm.controls['firstName'].hasError('required') && complexForm.controls['firstName'].touched" class="alert alert-danger">You must include a first name.</div>
+    </div>
+    <div class="form-group" [ngClass]="{'has-error':!complexForm.controls['lastName'].valid && complexForm.controls['lastName'].touched}">
+      <label class="label">Last Name</label>
+      <input class="form-control" type="text" placeholder="Doe" [formControl]="complexForm.controls['lastName']">
+      <div *ngIf="complexForm.controls['lastName'].hasError('required') && complexForm.controls['lastName'].touched" class="alert alert-danger">You must include a last name.</div>
+    </div>
+
+      <div class="form-group" [ngClass]="{'has-error':!complexForm.controls['loginId'].valid && complexForm.controls['loginId'].touched}">
+            <label class="label">Login Id</label>
+            <input class="form-control" type="loginId" placeholder="jdoe@flsheriffs.org" [formControl]="complexForm.controls['loginId']">
+            <div *ngIf="complexForm.controls['loginId'].hasError('required') && complexForm.controls['loginId'].touched" class="alert alert-danger">You must include a Login Id.</div>
+    </div>
+
+    <div class="form-group" [ngClass]="{'has-error':!complexForm.controls['password'].valid && complexForm.controls['password'].touched}">
+            <label class="label">Password</label>
+            <input class="form-control" type="password" placeholder="***********" [formControl]="complexForm.controls['password']">
+            <div *ngIf="complexForm.controls['password'].hasError('required') && complexForm.controls['password'].touched" class="alert alert-danger">You must include a password.</div>
+    </div>
+
+<!--    <div class="form-group" [ngClass]="{'has-error':!complexForm.controls['phoneMobile'].valid && complexForm.controls['phoneMobile'].touched}">
+            <label>Phone</label>
+            <input class="form-control" type="tel" placeholder="(850) 867-5309" [formControl]="complexForm.controls['phoneMobile']">
+            <div *ngIf="complexForm.controls['phoneMobile'].hasError('required') && complexForm.controls['phoneMobile'].touched" class="alert alert-danger">You must include a phone number.</div>
+    </div>  -->
+
+    <div class="form-group">
+            <button type="submit" [disabled]="!complexForm.valid" class="btn btn-primary">Register</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            <a [routerLink]="['/login']" class="label btn btn-link">Cancel</a>
+    </div>
+  </form>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+

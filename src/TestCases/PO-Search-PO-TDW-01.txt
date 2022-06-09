@@ -1,0 +1,16 @@
+Summary: Can you clear out the Search display when we select a Bid to pull up?  Please.
+
+Thank you.
+Beth Anne
+
+When a Bid is selected the Search Text input is cleared out.
+
+Test Case:
+
+1. Logon to system
+2. Click on the Purchase Orders menu item
+3. Click on the select bid *(FSA18-VEL26.0)  *Can be any bid
+3. In the PO Number search text box enter this 114749 LN52-61
+4. Click Search 
+5. Click on the select bid (FSA18-VEF13.0) *Can be any bid
+6. Verify that search box that had 114749 LN52-61 is clear.  

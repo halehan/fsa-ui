@@ -1,0 +1,388 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+  <div [hidden]="!enableList" style="margin-top: 60px; width: 1100px;" class="card tight panel">
+    <div class="card-header">Vendor Fine List</div>
+    <div class="card-body">
+
+      <mat-form-field style="padding-left: 15px;">
+        <input matInput (keyup)="applyUserFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+
+      <mat-table #table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="dealerName">
+          <mat-header-cell fxFlex="290px" *matHeaderCellDef mat-sort-header> Vendor </mat-header-cell>
+          <mat-cell fxFlex="290px" *matCellDef="let row">{{row.dealerName}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell fxFlex="70px" *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+          <mat-cell fxFlex="70px" *matCellDef="let row"> {{row.status}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="reason">
+          <mat-header-cell fxFlex="200px" *matHeaderCellDef mat-sort-header>Reason</mat-header-cell>
+          <mat-cell fxFlex="200px" *matCellDef="let row"> {{row.reason}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="bidNumber">
+          <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header>Contract Number</mat-header-cell>
+          <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.contractNumber}} </mat-cell>
+        </ng-container>
+        <!--
+        <ng-container matColumnDef="checkNumber">
+          <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Check Number </mat-header-cell>
+          <mat-cell fxFlex="100px" *matCellDef="let row">{{row.checkNumber}}</mat-cell>
+        </ng-container>
+      
+
+        <ng-container matColumnDef="checkDate">
+          <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header> Check Date </mat-header-cell>
+          <mat-cell fxFlex="120px" *matCellDef="let row">{{row.checkDate | dateFormatPipe}}</mat-cell>
+        </ng-container>
+      -->
+
+        <!--    <ng-container matColumnDef="receiveDate">
+        <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header>Receive Date </mat-header-cell>
+        <mat-cell fxFlex="120px" *matCellDef="let row">{{row.fineReceiveDate | dateFormatPipe}}</mat-cell>
+      </ng-container>
+    -->>
+
+        <ng-container matColumnDef="amount">
+          <mat-header-cell fxFlex="80px" *matHeaderCellDef mat-sort-header> Fine </mat-header-cell>
+          <mat-cell fxFlex="80px" *matCellDef="let row">{{row.fineAmount | currency}}</mat-cell>
+        </ng-container>
+
+         <ng-container matColumnDef="paymentAmount">
+            <mat-header-cell fxFlex="80px" *matHeaderCellDef mat-sort-header> Paid </mat-header-cell>
+            <mat-cell fxFlex="80px" *matCellDef="let row">{{row.paymentAmount | currency}}</mat-cell>
+          </ng-container>  
+
+        <ng-container matColumnDef="balance">
+          <mat-header-cell fxFlex="80px" *matHeaderCellDef mat-sort-header>Balance</mat-header-cell>
+          <mat-cell fxFlex="80px" *matCellDef="let row">{{row.balance | currency}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <mat-header-cell fxFlex="40px" *matHeaderCellDef> Edit </mat-header-cell>
+          <mat-cell fxFlex="40px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="editFine(row)">
+              <i class="fa fa-pencil mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <mat-header-cell fxFlex="40px" *matHeaderCellDef> Delete </mat-header-cell>
+          <mat-cell fxFlex="40px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="deleteFine(row)">
+              <i class="fa fa-trash-o  mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{'highlight': selectedRowIndex == row.id}">
+        </mat-row>
+
+      </mat-table>
+      <mat-paginator [hidden]="!enableList" [length]="1000" [pageSize]="5" [pageSizeOptions]="[5, 25, 100, 500]">
+      </mat-paginator>
+
+
+
+      <div class="new-fine form-group col-md-8">
+        <button mat-icon-button color="primary" focusable="false" (click)="newFine()">
+          <i style="font-size: 18px;" class="fa fa-plus-circle mat-icon"> </i>
+          New Vendor Fine
+        </button>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div [hidden]="!enableDetail" class="card" style="margin-top: 10px;">
+    <div class="panel-body">
+    
+    <div class="card-header">
+      Vendor Fine Details
+    </div>
+    <div style="background-color: #f0f1f0;" class="card-body">
+
+      <form autocomplete="off" [formGroup]="vendorForm">
+        <div class="form-row">
+
+
+          <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small" for="contractNumber">Contract Number</label>
+            <select required class="form-control" formControlName="contractNumber" id="contractSelect">
+              <option *ngIf="isNew">Select Contract</option>
+
+              <option *ngFor="let bid of bids" value={{bid.BidNumber}}>
+                {{ bid.BidNumber}}
+              </option>
+
+            </select>
+            <!--   <small class="form-text text-muted alert alert-danger"
+                  *ngIf="poForm.get('dealerId').touched && poForm.get('dealerId').hasError('required')">Vendor
+                  Required!</small>  -->
+          </div>
+
+
+          <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small" for="dealerId">Vendor</label>
+            <select required class="form-control" formControlName="dealerId" id="dealerSelect">
+              <option *ngIf="isNew">Select Vendor</option>
+
+              <option *ngFor="let dealer of dealers" value={{dealer.dealerId}}>
+                {{ dealer.dealerName}}
+              </option>
+
+              <!--      <option value='C'> County</option>
+                                                            <option value='E'> Education</option>
+                                                            <option value='M'> Municipality</option>
+                                                            <option value='O'> Other</option>
+                                                            <option value='S'> Sheriff</option>   -->
+            </select>
+            <!--   <small class="form-text text-muted alert alert-danger"
+              *ngIf="poForm.get('dealerId').touched && poForm.get('dealerId').hasError('required')">Vendor
+              Required!</small>  -->
+          </div>
+
+
+
+          <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+
+            <label class="label-small">Status</label>
+            <select style="height: calc(1.80rem + 2px);" formControlName="status" required class="form-control"
+              id="status">
+              <option *ngIf="isNew">Select Status</option>
+              <option>Initiated</option>
+              <option>Disputed</option>
+              <option>Paid</option>
+              <option>Waived</option>
+              <option>Corrected</option>
+            </select>
+          </div>
+          <!--    <small class="form-text text-muted alert alert-danger"
+                                                            *ngIf="poForm.get('poNumber').touched && poForm.get('poNumber').hasError('required')">PO
+                                                            Number Required!</small>  -->
+
+
+          <!--
+          <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Type</label>
+            <select style="height: calc(1.80rem + 2px);" required formControlName="type" class="form-control">
+              <option *ngIf="isNew">Select Type</option>
+              <option>Payment Not Received: Late Payment</option>
+              <option>PO Not Received: Late PO</option>
+              <option>Quarterly Report Not Received</option>
+              <option>Other: Failure to Report Sales</option>
+            </select>
+          </div>
+        -->
+
+
+          <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Reason</label>
+            <select style="height: calc(1.80rem + 2px);" required formControlName="reason" class="form-control">
+              <option *ngIf="isNew">Select Reason</option>
+              <option>Payment Not Received: Late Payment</option>
+              <option>PO Not Received: Late PO</option>
+              <option>Quarterly Report Not Received</option>
+              <option>Other: Failure to Report Sales</option>
+            </select>
+          </div>
+
+          <div class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Amount</label>
+            <input required currencyMask type="text" placeholder="Amount" name="fineAmount" formControlName="fineAmount"
+              class="form-control">
+          </div>
+
+          <div class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">PO Number</label>
+            <input type="text" placeholder="PO Number" name="poNumber" formControlName="poNumber"
+              class="form-control">
+              <small class="form-text text-muted-alert"
+              *ngIf="isPoQtr">PO or Quarter is required</small>
+          </div>
+
+          <div class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Quarter</label>
+            <input type="text" placeholder="Quarter" name="quarter" formControlName="quarter" class="form-control">
+            <small class="form-text text-muted-alert"
+            *ngIf="isPoQtr">Quarter or PO is required</small>
+          </div>
+
+          <!--      <div class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Amount Paid</label>
+            <input  currencyMask type="text" placeholder="Amount Paid" name="fineAmountPaid" formControlName="fineAmountPaid"
+              class="form-control">
+          </div>
+        
+    
+          <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+              <label class="label-small">Check Number</label>
+              <input  type="text" class="form-control" formControlName="checkNumber" placeholder="Check Number"
+               />
+          </div>
+
+          <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+              <label class="label-small">Payment Date</label>
+              <input type="text" class="form-control" formControlName="paymentDate" placeholder="Payment Date"
+                bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+              
+            
+            </div>
+          -->
+
+
+          <div class="col-md-6 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Comments</label>
+            <input type="text" class="form-control" formControlName="comments" placeholder="Comments" />
+          </div>
+
+          <div class="col-md-12">
+            <div>
+              <button [disabled]="vendorForm.pristine || vendorForm.invalid" (click)="processDetailUpdate()"
+                style="padding-right: 20px;" class="btn btn-success pull-right">Save</button>
+            </div>
+            <div>
+              <button [disabled]="vendorForm.invalid || isNew" (click)="createPayment()"
+                style="padding-right: 15px; margin-right: 5px;" class="btn btn-success pull-right">Add
+                Payment</button>
+            </div>
+
+          </div>
+
+          <div class="col-md-1">
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <div>
+
+    </div>
+
+    </div>
+
+  </div>
+
+  
+
+  <div [hidden]="!enablePaymentList" style="margin-top: 40px; width: 1100px; margin-bottom: 10px;" class="card tight panel">
+    <div class="card-header">Vendor Fine Payment List</div>
+    <div  class="card-body">
+
+      <mat-table #table [dataSource]="finePaymentListDS" matSort>
+
+        <ng-container matColumnDef="checkNumber">
+          <mat-header-cell fxFlex="190px" *matHeaderCellDef mat-sort-header> Check Number </mat-header-cell>
+          <mat-cell fxFlex="190px" *matCellDef="let row">{{row.checkNumber}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentDate">
+          <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header>Payment Date</mat-header-cell>
+          <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.paymentDate | dateFormatPipe}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="paymentAmount">
+          <mat-header-cell fxFlex="150px" *matHeaderCellDef mat-sort-header>Payment Amount</mat-header-cell>
+          <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.paymentAmount | currency}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="comments">
+          <mat-header-cell fxFlex="350px" *matHeaderCellDef mat-sort-header>Comments</mat-header-cell>
+          <mat-cell fxFlex="350px" *matCellDef="let row"> {{row.comments}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+          <mat-header-cell fxFlex="40px" *matHeaderCellDef> Edit </mat-header-cell>
+          <mat-cell fxFlex="40px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="editPayment(row)">
+              <i class="fa fa-pencil mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <mat-header-cell fxFlex="40px" *matHeaderCellDef> Delete </mat-header-cell>
+          <mat-cell fxFlex="40px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="deleteFinePayment(row)">
+              <i class="fa fa-trash-o  mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="paymentColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: paymentColumns" [ngClass]="{'highlight': selectedRowIndex == row.id}">
+        </mat-row>
+
+      </mat-table>
+
+    </div>
+  </div>
+
+  <div [hidden]="!enablePaymentDetail" class="card" style="margin-top: 10px; margin-bottom:20px;">
+    <div class="card-header">
+      Vendor Payment Details
+    </div>
+    <div style="background-color: #f0f1f0;" class="card-body">
+
+      <form autocomplete="off" [formGroup]="paymentForm">
+        <div class="form-row">
+
+          <div class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Check Number</label>
+            <input required type="text" placeholder="Check Number" name="checkNumber" formControlName="checkNumber"
+              class="form-control">
+          </div>
+
+          <div class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Payment Date</label>
+            <input required type="text" class="form-control" formControlName="paymentDate" placeholder="Payment Date"
+              bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+          </div>
+
+          <div class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Payment Amount</label>
+            <input required currencyMask type="text" placeholder="Payment Amount" name="paymentAmount" formControlName="paymentAmount"
+              class="form-control">
+          </div>
+
+          <div class="col-md-6 form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Comments</label>
+            <input type="text" placeholder="Comments" name="comments" formControlName="comments"
+              class="form-control">
+          </div>
+
+          <div class="col-md-12">
+            <div>
+              <button [disabled]="paymentForm.invalid  || paymentForm.pristine" (click)="processPaymentDetailUpdate()"
+                style="padding-right: 20px;" class="btn btn-success pull-right">Save</button>
+            </div>
+           
+
+          </div>
+
+          <div class="col-md-1">
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <div>
+
+    </div>
+
+  </div>
+  
+
+</div>

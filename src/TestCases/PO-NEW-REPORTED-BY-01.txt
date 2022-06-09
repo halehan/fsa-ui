@@ -1,0 +1,21 @@
+Summary: New PO doesn't save if you select Either Purchaser or Vendor in the PO Reported By
+
+Test Case:
+
+1. Logon to system
+2. Click on the Purchase Orders menu item
+3. Click on the select bid *(FSA18-VEL26.0)  *Can be any bid
+3. Click New PO
+4. Add Required Fields.  Check 'Purchaser' or 'Vendor' on the PO Completed By element
+5. Click the Save button on the PO Details form
+6. Verify that the PO saved successfully.  
+
+7. Click New PO
+8. Add Required Fields.  Check 'Purchaser' and 'Vendor' on the PO Completed By element
+9. Click the Save button on the PO Details form
+10. Verify that the PO saved successfully. 
+
+11. Click New PO
+12. Add Required Fields.  Check neither 'Purchaser' or 'Vendor' on the PO Completed By element
+13. Click the Save button on the PO Details form
+14. Verify that the PO saved successfully. 

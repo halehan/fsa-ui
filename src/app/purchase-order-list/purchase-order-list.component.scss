@@ -1,0 +1,142 @@
+
+
+hr {
+  width: 1150px;
+}
+
+.form-control{
+
+  font-size: 13px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+}
+
+.label-small {
+  vertical-align: super;
+  font-size: 13px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #93c593; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.new-po {
+  margin-left: 10px;
+  padding-left: 940px;
+ 
+}
+
+.insert-button-div {
+  margin-left: 100px;
+  padding-left: 900px;
+  padding-bottom: 25px;
+ 
+}
+
+.search-header{
+  padding-top: 1px;
+  padding-bottom: 2px;
+  width: 650px;
+
+}
+
+.example-header{
+  padding-top: 1px;
+  padding-bottom: 2px;
+  width: 450px;
+
+}
+
+.mat-cell{
+  font-size: 12px;
+}
+
+.mat-cell:first-child{
+    padding-left: 1px;
+
+}
+
+.mat-header-row{
+  width: 1100px;
+  min-height: 25px;
+}
+
+.mat-row{
+  width: 1100px;
+  min-height: 25px;
+}
+
+.mat-header-cell{
+width: 1100px;
+}
+
+.mat-table{
+  width: 1100px;
+}
+
+.mat-table-800{
+  width: 800px;
+  margin-left: 200px;
+}
+
+.mat-800{
+  width: 800px;
+}
+
+.mat-table-payment{
+  width: 800px;
+}
+
+.mat-header-cell{
+  width: 1100px;
+}
+
+.mat-icon{
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.mat-toolbar {
+  width: 1150px;
+  height: 30px;
+  padding-bottom: 4px;
+}
+
+.mat-toolbar-row {
+  width: 1150px;
+  height: 30px;
+  padding-bottom: 4px;
+}
+
+.mat-row:hover {
+  background-color: #eafaea;
+}
+
+.mat-row:active {
+  background-color: gray
+}
+
+.mat-icon-button {
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+}
+
+.pull-left {
+  padding-left: 0px;
+}
+
+.card-body{
+  padding: .5rem;
+}
+
+.card-header{
+ 
+  font-size: 1.00rem;
+  font-weight: 500;
+}

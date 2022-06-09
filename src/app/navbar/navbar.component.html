@@ -1,0 +1,88 @@
+<aside class="small-1 medium-3 columns sidebar-navigation" menu>
+  <nav class="pull-right navbar-expand-lg navbar-dark navbar-inverse fixed-top bg-inverse ">
+
+    <div class="collapse navbar-collapse dropdown" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto">
+
+        <li [hidden]="idleState == 'Started'" class="nav-item {{testingActive}} "
+          [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+          <a class="navbar-brand" [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#">-
+            {{idleState}}
+          </a>
+        </li>
+
+        <li class="nav-item {{testingActive}} " [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+          <button [hidden]="idleState == 'Started'" style="padding-left: 15px;" (click)="junk()"
+            class="btn btn-warning ">Continue</button>
+        </li>
+
+        <li  class="nav-item {{chartsActive}} " [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+          <a [routerLink]="['/charts']" class="nav-link"
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#">
+            <i class="fa fa-th fa-fw"></i>&nbsp; Dashboard</a>
+        </li>
+
+        <li [hidden]=isProd class="nav-item {{testingActive}} "
+          [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+          <a [routerLink]="['/testing']" class="nav-link"
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#"><i
+              class="fa fa-cogs"></i>&nbsp; Testing</a>
+        </li>
+
+        <li class="nav-item {{homeActive}} " [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}">
+          <a [routerLink]="['/home']" class="nav-link"
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#">
+            <fa-icon [icon]="faHome"></fa-icon>&nbsp; Home
+          </a>
+        </li>
+
+        <li [hidden]=isHidePurchaseorder() class="nav-item  {{bidActive}}">
+          <a [routerLink]="['/bids']" class="nav-link "
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#"><i class="fa fa-tasks"
+              aria-hidden="true"></i>&nbsp; Purchase Orders</a>
+        </li>
+
+        <li [hidden]=isHidePaymentProcessing() class="nav-item  {{paymentsActive}}">
+          <a [routerLink]="['/payments']" class="nav-link "
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#"><i class="fa fa-money"
+              aria-hidden="true"></i>&nbsp; Payment Processing</a>
+        </li>
+
+        <li  class="nav-item  {{searchActive}}">
+          <a [routerLink]="['/search']" class="nav-link "
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#"><i class="fa fa-money"
+              aria-hidden="true"></i>&nbsp; Search Payments</a>
+        </li>
+
+        <li [hidden]=isHideUserMaintenance() class="nav-item  {{userActive}}  ">
+          <a [routerLink]="['/user']" class="nav-link "
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#">
+            <fa-icon [icon]="faAddressBook"></fa-icon>&nbsp; Users
+          </a>
+        </li>
+
+        <li [hidden]=isHideVendorFines() class="nav-item  {{userActive}}  ">
+          <a [routerLink]="['/vendorFine']" class="nav-link "
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#"><i
+              class="fa fa-calculator"></i>&nbsp; Vendor Fines</a>
+        </li>
+
+        <li [hidden]=isHideTableMaintenance() class="nav-item  {{userActive}}  ">
+          <a [routerLink]="['/sideBar']" class="nav-link "
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#">
+            <fa-icon [icon]="faAddressBook"></fa-icon>&nbsp; Table Maintenance
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a [routerLink]="['/login']" class="nav-link"
+            [ngStyle]="{'color': headingColor, 'font-size': headingSize + 'rem'}" href="#">
+            <fa-icon [icon]="faSignOutAlt"></fa-icon>&nbsp; Logout
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+  </nav>
+</aside>

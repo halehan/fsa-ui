@@ -1,0 +1,396 @@
+<app-navbar></app-navbar>
+
+<mat-accordion>
+
+  <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+    style="margin-top: 60px; margin-left: 250px;">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Search by Check Vendor
+      </mat-panel-title>
+      <mat-panel-description>
+        {{panelOpenState ? '' : 'Search By Check or Vendor'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="container pt-2">
+      <div class="row">
+        <div class="col mt-5">
+
+          <!--   <mat-toolbar style="margin-top: 10px;">
+                  <span>Search by Check  </span>
+              </mat-toolbar>  -->
+
+
+          <form [formGroup]="checkNumberForm">
+            <div class="mat-row2">
+              <div class="col-md-12">
+
+                <mat-form-field class="gap">
+                  <input matInput formControlName="checkNumber" placeholder="Check Number">
+                </mat-form-field>
+
+                <mat-form-field class="gap">
+                  <input matInput formControlName="vendor" placeholder="Vendor">
+                </mat-form-field>
+
+                <mat-form-field class="gap">
+                  <input matInput formControlName="paymentDate" placeholder="Payment Date MM/DD/YYYY">
+                </mat-form-field>
+
+                <!--  <mat-form-field class="gap">
+                    <input matInput [matDatepicker] = "picker" formControlName="paymentDate" placeholder = "Payment Date">
+                    <mat-datepicker-toggle matSuffix [for] = "picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                 </mat-form-field>
+                -->
+
+                <button [disabled]="checkNumberForm.pristine" mat-button (click)="search()" type="submit"
+                  style="margin-left: 25px;" class="mat-flat-button btn-success insert-button">Search</button>
+                <i [hidden]="!searching" class="fa fa-circle-o-notch fa-spin" style="font-size:24px; color: green; 
+                              margin-left: 500px; margin-top:15px;"></i>
+              </div>
+
+            </div>
+
+          </form>
+
+          <div [hidden]="!enablePoList" class="card tight panel">
+            <div class="card-header">Payment List</div>
+            <div class="card-body">
+
+              <mat-table #table [dataSource]="poDataSource" matSort #paymentSort="matSort">
+
+                <ng-container matColumnDef="paymentCheckNum">
+                  <mat-header-cell style="padding-left: 20px;" class="pull-left" fxFlex="130px" *matHeaderCellDef
+                    mat-sort-header> Check
+                    Number </mat-header-cell>
+                  <mat-cell style="padding-left: 20px;" fxFlex="130px" *matCellDef="let row"> {{row.paymentCheckNum}}
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="dealerName">
+                  <mat-header-cell fxFlex="275px" *matHeaderCellDef mat-sort-header> Vendor </mat-header-cell>
+                  <mat-cell fxFlex="275px" *matCellDef="let row">{{row.dealerName}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="paymentDate">
+                  <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef mat-sort-header>Payment Date
+                  </mat-header-cell>
+                  <mat-cell fxFlex="120px" *matCellDef="let row"> {{row.paymentDate | dateFormatPipe}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="POS">
+                  <mat-header-cell fxFlex="125px" *matHeaderCellDef mat-sort-header>Payment Count</mat-header-cell>
+                  <mat-cell fxFlex="125px" *matCellDef="let row"> {{row.POS}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="AdminFee">
+                  <mat-header-cell fxFlex="120px" *matHeaderCellDef mat-sort-header>Payment Fee Total </mat-header-cell>
+                  <mat-cell fxFlex="120px" *matCellDef="let row">{{row.AdminFee | currency}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="View">
+                  <mat-header-cell fxFlex="55px" *matHeaderCellDef mat-sort-header> View </mat-header-cell>
+                  <mat-cell fxFlex="55px" *matCellDef="let row">
+                    <button mat-icon-button color="primary" focusable="false" (click)="onRowClicked(row)">
+                      <i class="fa fa-th-list  mat-icon"></i>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Delete">
+                  <mat-header-cell fxFlex="55px" *matHeaderCellDef> Delete </mat-header-cell>
+                  <mat-cell fxFlex="55px" *matCellDef="let row">
+                    <button [hidden]="!isAudit" mat-icon-button color="primary" focusable="false"
+                      (click)="deleteAllPayments(row)">
+                      <i class="fa fa-trash-o  mat-icon"></i>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <mat-header-cell fxFlex="55px" *matHeaderCellDef> Lock </mat-header-cell>
+                  <mat-cell fxFlex="55px" *matCellDef="let row">
+                    <button [hidden]="!isAudit" mat-icon-button color="primary" focusable="false"
+                      (click)="lockPayments(row)">
+                      <i class={{row.icon}}></i>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <!--     <ng-container matColumnDef="verified">
+                    <mat-header-cell fxFlex="50px" *matHeaderCellDef> Verified </mat-header-cell>
+                    <mat-cell fxFlex="50px" *matCellDef="let row">
+                      <button mat-icon-button color="primary" focusable="false" (click)="verifyPayments(row)">
+                          <i class={{row.verifyIcon}}></i>
+                      </button>
+                    </mat-cell>
+                  </ng-container>  -->
+
+
+                <mat-header-row *matHeaderRowDef="displayColsGrouping"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayColsGrouping"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}"></mat-row>
+              </mat-table>
+
+              <mat-paginator #paymentPaginator [length]="500" [pageSize]="10" [pageSizeOptions]="[10, 25, 100, 500]">
+              </mat-paginator>
+
+              <br>
+
+            </div>
+          </div>
+          <br>
+
+          <div [hidden]="!enableItemList" class="card tight panel">
+            <div class="card-header">Payments</div>
+            <div class="card-body">
+
+              <mat-table #table [dataSource]="poPaymentList" matSort #paymentListSort="matSort">
+
+                <ng-container matColumnDef="bidNumber">
+                  <mat-header-cell class="pull-left" fxFlex="100px" *matHeaderCellDef mat-sort-header>Bid #
+                  </mat-header-cell>
+                  <mat-cell fxFlex="100px" *matCellDef="let row"> {{row.bidNumber}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="poNumber">
+                  <mat-header-cell class="pull-left" fxFlex="150px" *matHeaderCellDef mat-sort-header>PO #
+                  </mat-header-cell>
+                  <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.poNumber}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="checkNumber">
+                  <mat-header-cell class="pull-left" fxFlex="80px" *matHeaderCellDef mat-sort-header>Check #
+                  </mat-header-cell>
+                  <mat-cell fxFlex="80px" *matCellDef="let row"> {{row.paymentCheckNum}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="cityAgency">
+                  <mat-header-cell class="pull-left" fxFlex="150px" *matHeaderCellDef mat-sort-header>Purchaser
+                  </mat-header-cell>
+                  <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.cityAgency}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="dealerName">npm
+                  <mat-header-cell class="pull-left" fxFlex="140px" *matHeaderCellDef mat-sort-header>Vendor
+                  </mat-header-cell>
+                  <mat-cell fxFlex="140px" *matCellDef="let row"> {{row.dealerName}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="itemType">
+                  <mat-header-cell class="pull-left" fxFlex="160px" *matHeaderCellDef mat-sort-header>Item Type
+                  </mat-header-cell>
+                  <mat-cell fxFlex="160px" *matCellDef="let row"> {{row.itemType}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="paymentDate">
+                  <mat-header-cell class="pull-left" fxFlex="100px" *matHeaderCellDef mat-sort-header>Date Received
+                  </mat-header-cell>
+                  <mat-cell fxFlex="100px" *matCellDef="let row"> {{row.paymentDate | dateFormatPipe}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="paymentAmount">
+                  <mat-header-cell class="pull-left" fxFlex="90px" *matHeaderCellDef mat-sort-header>Payment Amount
+                  </mat-header-cell>
+                  <mat-cell fxFlex="90px" *matCellDef="let row"> {{row.paymentAmount | currency}} </mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="onItemRowClicked(itemList)"></mat-row>
+
+              </mat-table>
+
+              <mat-paginator #paymentListPaginator [length]="500" [pageSize]="10"
+                [pageSizeOptions]="[10, 25, 100, 500]">
+              </mat-paginator>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel style="margin-left: 250px;">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Lock Payment Records
+      </mat-panel-title>
+      <mat-panel-description>
+        Enter the data range for payments to be locked format MM/DD/YYYY
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+
+    <div [hidden]="!enableLockedList" class="card tight panel">
+      <div class="card-header">Payments Locked</div>
+      <div class="card-body">
+
+        <mat-table #table [dataSource]="poLockedList" matSort #lockPaginator="matSort">
+
+          <ng-container matColumnDef="createdBy">
+            <mat-header-cell style="padding-left: 50px;" class="pull-left" fxFlex="225px" *matHeaderCellDef
+              mat-sort-header> Created By </mat-header-cell>
+            <mat-cell style="padding-left: 25px;" fxFlex="225px" *matCellDef="let row"> {{row.createdBy}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lockedRows">
+            <mat-header-cell fxFlex="155px" *matHeaderCellDef mat-sort-header> Payments Locked </mat-header-cell>
+            <mat-cell style="padding-left: 35px;" fxFlex="155px" *matCellDef="let row">{{row.lockedRows}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lockStartDate">
+            <mat-header-cell class="pull-left" fxFlex="125px" *matHeaderCellDef mat-sort-header>Lock Start Date
+            </mat-header-cell>
+            <mat-cell style="padding-left: 5px;" fxFlex="125px" *matCellDef="let row"> {{row.lockStartDate |
+              dateFormatPipe}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lockEndDate">
+            <mat-header-cell class="pull-left" fxFlex="125px" *matHeaderCellDef mat-sort-header>Lock End Date
+            </mat-header-cell>
+            <mat-cell style="padding-left: 5px;" fxFlex="125px" *matCellDef="let row"> {{row.lockEndDate |
+              dateFormatPipe}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="createdDate">
+            <mat-header-cell class="pull-left" fxFlex="125px" *matHeaderCellDef mat-sort-header>Date Locked
+            </mat-header-cell>
+            <mat-cell style="padding-left: 5px;" fxFlex="125px" *matCellDef="let row"> {{row.createdDate |
+              dateFormatPipe}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="view">
+            <mat-header-cell fxFlex="65px" *matHeaderCellDef> View </mat-header-cell>
+            <mat-cell style="padding-left: 5px;" fxFlex="65px" *matCellDef="let row">
+              <button [hidden]="disableButtons()" mat-icon-button color="primary" focusable="false"
+                (click)="getLockedByDates(row)">
+                <i class="fa fa-th-list  mat-icon"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="delete">
+            <mat-header-cell fxFlex="125px" *matHeaderCellDef> Remove Lock </mat-header-cell>
+            <mat-cell style="padding-left: 20px;" fxFlex="125px" *matCellDef="let row">
+              <button [hidden]="disableButtons()" mat-icon-button color="primary" focusable="false"
+                (click)="deleteLockedRows(row)">
+                <i class="fa fa-trash-o  mat-icon"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="lockedList"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: lockedList" [ngClass]="{'highlight': selectedRowIndex == row.id}">
+          </mat-row>
+        </mat-table>
+
+        <mat-paginator #lockedSessionsPaginator [length]="500" [pageSize]="10" [pageSizeOptions]="[10, 25, 100, 500]">
+        </mat-paginator>
+
+        <br>
+
+      </div>
+    </div>
+
+
+    <form [formGroup]="lockForm">
+
+      <mat-form-field class="gap">
+        <input matInput formControlName="startDate" placeholder="Start Date MM/DD/YYYY">
+      </mat-form-field>
+
+      <mat-form-field class="gap">
+        <input matInput formControlName="endDate" placeholder="End Date MM/DD/YYYY">
+      </mat-form-field>
+
+    </form>
+    <button [disabled]="lockForm.pristine" mat-button (click)="getLockedByDateRange()" style="margin-left: 35px;"
+      class="mat-flat-button btn-success insert-button">View Locked Payments</button>
+
+    <button [disabled]="lockForm.pristine || disableButtons()" mat-button (click)="lockDatePayments()"
+      style="margin-left: 35px;" class="mat-flat-button btn-success insert-button">Lock Payments</button>
+
+  <!--  <button [disabled]="lockForm.pristine || disableButtons()" mat-button (click)="unlockDatePayments()"
+      style="margin-left: 35px;" class="mat-flat-button btn-success insert-button">UnLock Payments</button>   -->
+
+    <mat-icon [hidden]="!lockingByDate" [inline]="true">
+      <i class="fa fa-circle-o-notch fa-spin" style="font-size:24px; color: green; margin-left: 750px;"></i>
+    </mat-icon>
+
+    <div style="margin-top:15px;" class="card tight panel">
+      <div [hidden]="!enableLockList" class="card-header">Payments Locked - {{noRowsMsg}}</div>
+      <div [hidden]="!enableLockList" class="card-body">
+
+        <div [hidden]="enableLockList"> {{noRowsMsg}} </div>
+
+        <mat-table #table [dataSource]="lockedPaymentsList" matSort #lockSort="matSort">
+
+          <ng-container matColumnDef="paymentCheckNum">
+            <mat-header-cell class="pull-left" fxFlex="150px" *matHeaderCellDef mat-sort-header>Check Number
+            </mat-header-cell>
+            <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.paymentCheckNum}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="dealerName">
+            <mat-header-cell class="pull-left" fxFlex="200px" *matHeaderCellDef mat-sort-header>Vendor Name
+            </mat-header-cell>
+            <mat-cell fxFlex="200px" *matCellDef="let row"> {{row.dealerName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="poNumber">
+            <mat-header-cell class="pull-left" fxFlex="150px" *matHeaderCellDef mat-sort-header>PO Number
+            </mat-header-cell>
+            <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.poNumber}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="adminFeeDue">
+            <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef mat-sort-header>AdminFee Due
+            </mat-header-cell>
+            <mat-cell fxFlex="120px" *matCellDef="let row"> {{row.adminFeeDue}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="paymentAmount">
+            <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef mat-sort-header>Payment Amount
+            </mat-header-cell>
+            <mat-cell fxFlex="120px" *matCellDef="let row"> {{row.paymentAmount}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="paymentDate">
+            <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef mat-sort-header>Payment Date
+            </mat-header-cell>
+            <mat-cell fxFlex="120px" *matCellDef="let row"> {{row.paymentDate | dateFormatPipe}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lockDate">
+            <mat-header-cell class="pull-left" fxFlex="150px" *matHeaderCellDef mat-sort-header>Lock Date
+            </mat-header-cell>
+            <mat-cell fxFlex="150px" *matCellDef="let row"> {{row.lockDate | dateFormatPipe}} </mat-cell>
+          </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="lockedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: lockedColumns;" [ngClass]="{'highlight': selectedRowIndex == row.id}">
+          </mat-row>
+
+        </mat-table>
+
+        <mat-paginator #lockPaginator [length]="1500" [pageSize]="10" [pageSizeOptions]="[10, 25, 100, 500]">
+        </mat-paginator>
+
+      </div>
+    </div>
+
+  </mat-expansion-panel>
+
+</mat-accordion>

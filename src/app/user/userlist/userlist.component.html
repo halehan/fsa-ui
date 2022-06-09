@@ -1,0 +1,165 @@
+<div style="width: 810px; margin-top: 60px; margin-left: 180px;" class="card tight panel">
+  <div class="card-header">User List</div>
+  <div class="card-body">
+
+    <div class="example-header">
+      <mat-form-field>
+        <input matInput (keyup)="applyUserFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table class="mat-table" #table [dataSource]="userDataSource" matSort>
+
+      <ng-container matColumnDef="firstName">
+        <mat-header-cell fxFlex="100px" style="padding-left: 1px;" *matHeaderCellDef mat-sort-header> First Name
+        </mat-header-cell>
+        <mat-cell fxFlex="100px" *matCellDef="let row"> {{row.firstName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lastName">
+        <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+        <mat-cell fxFlex="100px" *matCellDef="let row"> {{row.lastName}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <mat-header-cell fxFlex="100px" *matHeaderCellDef mat-sort-header> Phone</mat-header-cell>
+        <mat-cell fxFlex="100px" *matCellDef="let row"> {{row.phone}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="loginId">
+        <mat-header-cell fxFlex="175px" *matHeaderCellDef mat-sort-header> Login Id</mat-header-cell>
+        <mat-cell fxFlex="175px" *matCellDef="let row"> {{row.loginId}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="createdTime">
+        <mat-header-cell fxFlex="125px" *matHeaderCellDef mat-sort-header> Created </mat-header-cell>
+        <mat-cell fxFlex="125px" *matCellDef="let row">{{ row.createdDate | date }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <mat-header-cell class="pull-left" fxFlex="40px" *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
+        <mat-cell fxFlex="40px" *matCellDef="let row">
+          <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)">
+            <i class="fa fa-pencil mat-icon"></i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="delete">
+        <mat-header-cell fxFlex="40px" *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+        <mat-cell fxFlex="40px" *matCellDef="let row">
+          <button mat-icon-button color="primary" focusable="false" (click)="delete(row)">
+            <i class="fa fa-trash-o  mat-icon"></i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row class="mat-900" *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row class="mat-900" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+  <br>
+  <hr>
+
+</div>
+
+<div *ngIf="selectedUser" class="card">
+  <div class="card-header">
+    User Details
+  </div>
+  <div class="card-body">
+
+
+    <form #myForm="ngForm">
+      <div class="form-row">
+
+        <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+          <label class="control-label">Login</label>
+          <input [disabled]='true' type="text" name="loginId" [(ngModel)]="selectedUser.loginId" #loginId="ngModel"
+            class="form-control">
+        </div>
+
+        <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+          <label class="control-label">First Name</label>
+          <input type="text" name="firstName" required [(ngModel)]="selectedUser.firstName" #firstName="ngModel"
+            class="form-control">
+        </div>
+
+
+        <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+          <label class="control-label">Last Name</label>
+          <input type="text" name="lastName" required [(ngModel)]="selectedUser.lastName" #lastName="ngModel"
+            class="form-control">
+        </div>
+
+        <div class="col-md-3 form-group input-group-sm form-black label-floating is-empty">
+          <label class="control-label">Phone Number</label>
+          <input type="text" name="phone" [(ngModel)]="selectedUser.phone" #phoneMobile="ngModel" class="form-control">
+        </div>
+        <mat-card>User Roles
+        <div class="col-md-12">
+
+          <div style="padding-top: 35px; padding-left: 12px;"
+            class="form-group input-group-sm form-check form-check-inline">
+            <label style="padding-right: 10px; padding-left: 15px;" class="form-check-label">System Admin</label>
+            <input name="admin" [(ngModel)]="selectedUser.admin" #admin="ngModel"
+              style="width: 18px; height: 18px; padding-left: 15px;" type="checkbox" value={{selectedUser.admin}} class="form-control">
+          </div>
+
+          <div style="padding-top: 35px; padding-left: 12px;"
+            class="form-group input-group-sm form-check form-check-inline">
+            <label style="padding-right: 10px; padding-left: 15px;" class="form-check-label">Data Entry </label>
+            <input name="user" [(ngModel)]="selectedUser.user" #user="ngModel"
+              style="width: 18px; height: 18px; padding-left: 15px;" type="checkbox" value={{selectedUser.user}}>
+          </div>
+
+          <div style="padding-top: 35px; padding-left: 12px;"
+            class="form-group input-group-sm form-check form-check-inline">
+            <label style="padding-right: 10px; padding-left: 15px;" class="form-check-label">User Admin</label>
+            <input name="userAdmin" [(ngModel)]="selectedUser.userAdmin" #userAdmin="ngModel"
+              style="width: 18px; height: 18px; padding-left: 15px;" type="checkbox" value={{selectedUser.userAdmin}}>
+          </div>
+
+          <div style="padding-top: 35px; padding-left: 12px;"
+            class="form-group input-group-sm form-check form-check-inline">
+            <label style="padding-right: 10px; padding-left: 15px;" class="form-check-label">Audit</label>
+            <input name="audit" [(ngModel)]="selectedUser.audit" #audit="ngModel"
+              style="width: 18px; height: 18px; padding-left: 15px;" type="checkbox" value={{selectedUser.audit}}>
+          </div>
+
+          <div style="padding-top: 35px; padding-left: 12px;"
+            class="form-group input-group-sm form-check form-check-inline">
+            <label [hidden]=selectedUser.user style="padding-right: 10px; padding-left: 15px;" class="form-check-label">Read Only </label>
+            <input [hidden]=selectedUser.user name="readOnly" [(ngModel)]="selectedUser.readOnly" #readOnly="ngModel"
+              style="width: 18px; height: 18px; padding-left: 15px;" type="checkbox" value={{selectedUser.readOnly}}>
+          </div>
+
+          <div style="padding-top: 35px; padding-left: 12px;"
+            class="form-group input-group-sm form-check form-check-inline">
+            <label  style="padding-right: 10px; padding-left: 15px;" class="form-check-label">Fine User </label>
+            <input  name="fine" [(ngModel)]="selectedUser.fine" #readOnly="ngModel"
+              style="width: 18px; height: 18px; padding-left: 15px;" type="checkbox" value={{selectedUser.fine}}>
+        </div>
+
+        </div>
+      </mat-card>
+
+      </div>
+
+    <div style="padding-top: 10px; padding-bottom: 5px;" >
+      <button (click)="updateUser()" type="submit"  [disabled]="!myForm.dirty" class="btn btn-success pull-right">Update
+        User</button>
+      </div>
+      <div class="clearfix"></div>
+    </form>
+   
+
+  </div>
+</div>
+<br>
+
+
+<br>

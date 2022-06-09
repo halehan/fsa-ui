@@ -1,0 +1,232 @@
+<div  (refreshPoDetails)="refreshPoDetailsHandler($event)"  style="width: 1150px;" class="tight panel panel-primary">
+        <div class="panel-body">
+                <div class="card tight panel">
+                        <div class="card-header">
+                                Purchase Order Details
+                        </div>
+                        <div class="card-body">
+
+                                <form [formGroup]="poForm">
+                                        <div class="form-row">
+
+                                                <div
+                                                        class="col-md-4 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small" for="bidTypeNnumberSelect">Contract
+                                                                Number</label>
+
+                                                        <select required formControlName="bidNumber"
+                                                                class="form-control input-group-sm"
+                                                                id="bidTypeNnumberSelect">
+                                                                <!--      <option  selected>{{ pox.bidNumber }} 
+                                                                                                         </option>     -->
+                                                                <option *ngFor="let bn of bidNumbers"
+                                                                        value={{bn.BidNumber}}>
+                                                                        {{bn.BidNumber}} -
+                                                                        {{bn.BidType}}
+                                                                </option>
+                                                        </select>
+
+                                                        <small class="form-text text-muted alert alert-danger"
+                                                                *ngIf="poForm.get('bidNumber').touched && poForm.get('bidNumber').hasError('required')">Contract
+                                                                Required!</small>
+                                                </div>
+
+
+                                                <div
+                                                        class="col-md-4 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">P.O.Number</label>
+                                                        <input autocomplete="off" #poFocus placeholder="PO Number"
+                                                                type="text" formControlName="poNumber" required
+                                                                class="form-control">
+                                                        <small class="form-text text-muted alert alert-danger"
+                                                                *ngIf="poForm.get('poNumber').touched && poForm.get('poNumber').hasError('required')">PO
+                                                                Number Required!</small>
+                                                </div>
+
+
+
+
+                                                <div
+                                                        class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">PO Issue Date</label>
+                                                        <input type="text" class="form-control"
+                                                                formControlName="poIssueDate"
+                                                                placeholder="PO Issue Date" bsDatepicker
+                                                                [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+                                                        <div style="line-height: 1.2; font-size: .90rem; padding: 0.95rem 1.25rem;"
+                                                                [hidden]="datePoIssueBidValid && datePoIssueValid"
+                                                                class="alert alert-danger">
+                                                                {{messagePoIssueDate}}
+                                                        </div>
+
+                                                </div>
+
+
+
+
+                                                <div
+                                                        class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">PO Reported
+                                                                Date</label>
+                                                        <input type="text" class="form-control"
+                                                                formControlName="dateReported"
+                                                                placeholder="PO Date Reported" bsDatepicker />
+                                                        <div style="line-height: .95; font-size: .90rem; padding: 0.95rem 1.25rem;"
+                                                                [hidden]="datePoReportedValid"
+                                                                class="alert alert-danger">
+                                                                {{messagePoReportedDate}}
+                                                        </div>
+
+                                                     
+                                                </div>
+
+
+                                                <div
+                                                        class="col-md-4 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small"
+                                                                for="cityAgencySelect">Purchaser</label>
+                                                        <select placeholder="Purchaser" formControlName="cityAgency"
+                                                                class="form-control input-group-sm" required
+                                                                id="cityAgencySelect">
+                                                                <!--        <option  selected>{{ pox.cityAgency }} 
+                                                                                                                 </option>  -->
+                                                                <option *ngFor="let ca of cityAgencies"
+                                                                        value={{ca.cityAgencyName}}>
+                                                                        {{ ca.cityAgencyName }} -
+                                                                        {{ ca.agencyName }}
+                                                                </option>
+                                                        </select>
+                                                        <small class="form-text text-muted alert alert-danger"
+                                                                *ngIf="poForm.get('cityAgency').touched && poForm.get('cityAgency').hasError('required')">Purchaser
+                                                                Required!</small>
+                                                </div>
+
+
+
+
+                                                <div
+                                                        class="col-md-4 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small" for="dealerSelect">Vendor
+                                                                Select</label>
+                                                        <select class="form-control" formControlName="dealerName"
+                                                                id="dealerSelect" required>
+                                                                <option *ngIf="poNew">Select Vendor
+                                                                </option>
+
+                                                                <option *ngFor="let dealer of dealers"
+                                                                        value={{dealer.dealerName}}>
+                                                                        {{ dealer.dealerName}}
+                                                                </option>
+                                                        </select>
+                                                        <small class="form-text text-muted alert alert-danger"
+                                                                *ngIf="poForm.get('dealerName').touched && poForm.get('dealerName').hasError('required')">Vendor
+                                                                Required!</small>
+                                                </div>
+
+                                                <div
+                                                        class="col-md-4 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Comments</label>
+                                                        <input type="text" name="comments" formControlName="comments"
+                                                                class="form-control">
+                                                </div>
+
+
+                                                <div
+                                                        class="col-md-4 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">PO Reported
+                                                                by</label>
+                                                        <div style="padding-top: 15px; margin-left: 20px;"
+                                                                class="form-group input-group-sm form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                        id="inlineCheckbox1"
+                                                                        style="width: 18px; height: 18px;"
+                                                                        formControlName="agencyFlag" name="agencyFlag">
+                                                                <label class="form-check-label"
+                                                                        for="inlineCheckbox1">Purchaser</label>
+                                                        </div>
+                                                        <div style="padding-top: 15px; margin-left: 20px;"
+                                                                class="form-group input-group-sm form-check form-check-inline">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                        id="inlineCheckbox2"
+                                                                        style="width: 18px; height: 18px;"
+                                                                        formControlName="dealerFlag" name="dealerFlag">
+                                                                <label class="form-check-label"
+                                                                        for="inlineCheckbox2">Vendor</label>
+                                                        </div>
+                                                </div>
+
+
+                                                <div
+                                                        class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">PO Status</label>
+                                                        <select class="form-control" formControlName="poStatus"
+                                                                id="poCompleteSelect">
+                                                                <option *ngIf="poNew">
+                                                                        
+                                                                        </option>
+                                                                <option *ngFor="let code of poStatusTypeCodes"
+                                                                        value={{code.poStatusTypeCode}}>
+                                                                        {{ code.poStatusTypeCode}}
+                                                                </option>
+                                                        </select>
+                                                        <small class="form-text text-muted alert alert-danger"
+                                                                *ngIf="poForm.get('poStatus').touched && poForm.get('poStatus').hasError('required')">PO
+                                                                Status Required!</small>
+                                                </div>
+
+
+                                                <div
+                                                        class=" col-md-2 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">PO Amount</label>
+                                                        <input currencyMask autocomplete="off" placeholder="$.00"
+                                                                style="text-align: right" type="text" name="poAmount"
+                                                                formControlName="poAmount" class="form-control">
+
+                                                </div>
+
+
+                                                <div
+                                                        class="col-md-2 form-group input-group-sm form-black label-floating is-empty">
+                                                        <label class="label-small">Admin Fee Due</label>
+                                                        <input currencyMask type="text" disabled name="adminFeeDue"
+                                                                formControlName="adminFeeDue" class="form-control">
+                                                </div>
+
+                                                <div class="col-md-2">
+
+                                                        <div style="padding-top: 20px;"
+                                                                class="form-group input-group-sm form-check form-check-inline">
+                                                                <label style="padding-right: 10px; padding-left: 10px;"
+                                                                        class="form-check-label">Verify
+                                                                        Amounts</label>
+                                                                <input  style="width: 18px; height: 18px; padding-left: 15px;"
+                                                                        type="checkbox" formControlName="poFinal"
+                                                                        value="0">
+
+
+                                                        </div>
+
+                                                        <div style="line-height: .95; font-size: .90rem; padding: 0.95rem 1.25rem;"
+                                                                [hidden]="poFinalValid || readOnly" class="alert alert-danger">
+                                                                {{messagePoFinal}}
+                                                        </div>
+
+                                                </div>
+
+                                              
+                                                <div class="col-md-12">
+                                                        <button [disabled]="poForm.invalid  || poForm.pristine || readOnly"
+                                                                (click)="processPurchaseOrder()"
+                                                                style="padding-right: 15px;"
+                                                                class="btn btn-success pull-right">Save</button>
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                </div>
+
+                                        </div>
+                                </form>
+                        </div>
+                </div>
+        </div>
+</div>

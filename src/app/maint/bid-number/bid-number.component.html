@@ -1,0 +1,208 @@
+<app-sidebar></app-sidebar>
+<div class="container-fluid">
+
+<div style="width: 1000px; margin-top: 100px;" class="card tight panel">
+  <div class="card-header">Contract Number List</div>
+  <div class="card-body">
+
+    <mat-form-field style="padding-left: 15px;">
+      <input matInput (keyup)="applyUserFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+
+    <mat-table #table [dataSource]="listDS" matSort>
+
+      <ng-container matColumnDef="BidNumber">
+        <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef mat-sort-header>Contract Number
+        </mat-header-cell>
+        <mat-cell fxFlex="120px" *matCellDef="let itemList"> {{itemList.BidNumber}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="BidType">
+        <mat-header-cell class="pull-left" fxFlex="110px" *matHeaderCellDef mat-sort-header>Contract Type
+        </mat-header-cell>
+        <mat-cell fxFlex="110px" *matCellDef="let itemList"> {{itemList.BidType}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="BidTitle">
+        <mat-header-cell class="pull-left" fxFlex="360px" *matHeaderCellDef mat-sort-header>Contract Title
+        </mat-header-cell>
+        <mat-cell fxFlex="360px" *matCellDef="let itemList"> {{itemList.BidTitle}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="AdminFeeRate">
+          <mat-header-cell class="pull-left" fxFlex="120px" *matHeaderCellDef mat-sort-header>Admin Fee Rate
+          </mat-header-cell>
+          <mat-cell fxFlex="120px" *matCellDef="let itemList"> {{itemList.AdminFeeRate}} </mat-cell>
+        </ng-container>
+
+      <ng-container matColumnDef="StartDate">
+        <mat-header-cell fxFlex="80px" *matHeaderCellDef mat-sort-header> Start Date </mat-header-cell>
+        <mat-cell fxFlex="80px" *matCellDef="let itemList">{{itemList.StartDate | dateFormatPipe}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="EndDate">
+        <mat-header-cell fxFlex="80px" *matHeaderCellDef mat-sort-header> End Date </mat-header-cell>
+        <mat-cell fxFlex="80px" *matCellDef="let itemList">{{itemList.EndDate | dateFormatPipe}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <mat-header-cell class="pull-left" fxFlex="40px" *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
+        <mat-cell fxFlex="40px" *matCellDef="let row">
+          <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)">
+            <i class="fa fa-pencil mat-icon"></i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+  <!--    <ng-container matColumnDef="delete">
+        <mat-header-cell fxFlex="40px" *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+        <mat-cell fxFlex="40px" *matCellDef="let row">
+          <button mat-icon-button color="primary" focusable="false" (click)="delete(row)">
+            <i class="fa fa-trash-o  mat-icon"></i>
+          </button>
+        </mat-cell>
+      </ng-container>
+    -->
+
+    
+
+      <mat-header-row *matHeaderRowDef="itemColumns"></mat-header-row>
+      <mat-row *matRowDef="let itemList; columns: itemColumns;"></mat-row>
+
+
+    </mat-table>
+
+    <mat-paginator [length]="1000" [pageSize]="5" [pageSizeOptions]="[5, 25, 100, 500]">
+    </mat-paginator>
+
+  </div>
+
+  <div class="new-po form-group col-md-6">
+    <button mat-icon-button color="primary" focusable="false" (click)="new()">
+      <i style="font-size: 18px;" class="fa fa-plus-circle mat-icon"> </i>
+      New Contract
+    </button>
+  </div>
+
+</div>
+
+<br>
+
+<div [hidden]="!enableDetail" style="width: 1000px; margin-top: 10px;  margin-left:250px;" class="card tight panel">
+    <div class="card-header">
+      Contract Details
+    </div>
+    <div class="card-body">
+  
+      <form [formGroup]="form">
+          <div class="form-row">
+  
+          <div class="col-md-3 topMargin">
+            <div class="form-group input-group-sm form-black label-floating is-empty">
+              <label class="label-small">Contract Number</label>
+              <input placeholder="Contract Number" required style="text-align: left" type="text" name="BidNumber" formControlName="BidNumber"
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="col-md-3 topMargin">
+              <div
+                      class="form-group input-group-sm form-black label-floating is-empty">
+                      <label class="label-small">Contract Type</label>
+                      <select required style="height: calc(1.80rem + 2px);" formControlName="BidType" required  class="form-control" id="BidType">
+                          <option *ngIf="isNew">Select Contract Type
+                          <option>Fire-Rescue</option>
+                          <option>Heavy</option>
+                          <option>Light</option>
+                          <option>Tires</option>
+                          <option>Other</option>
+                        </select>
+              </div>
+          <!--    <small class="form-text text-muted alert alert-danger"
+                      *ngIf="poForm.get('poNumber').touched && poForm.get('poNumber').hasError('required')">PO
+                      Number Required!</small>  -->
+      </div>
+  
+          <div class="col-md-2 topMargin">
+              <div class="form-group input-group-sm form-black label-floating is-empty">
+                <label class="label-small">Admin Fee Rate</label>
+                <input placeholder="Admin Fee Rate" required style="text-align: left" type="text" name="AdminFeeRate" formControlName="AdminFeeRate"
+                  class="form-control">
+              </div>
+            </div>
+  
+          <div class="col-md-4 topMargin">
+            <div class="form-group input-group-sm form-black label-floating is-empty">
+              <label class="label-small">Contract Title</label>
+              <input placeholder="Contract Title" required style="text-align: left" type="text" name="BidTitle" formControlName="BidTitle"
+                class="form-control">
+            </div>
+          </div>
+
+          <div class="col-md-3 topMargin">
+              <div
+                      class="form-group input-group-sm form-black label-floating is-empty">
+                      <label class="label-small">Start Date</label>
+                      <input required type="text" class="form-control"
+                              formControlName="StartDate"
+                              placeholder="Start Date" bsDatepicker
+                              [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+                   
+              </div>
+           </div>  
+
+           <div class="col-md-3 topMargin">
+              <div
+                      class="form-group input-group-sm form-black label-floating is-empty">
+                      <label class="label-small">End Date</label>
+                      <input required type="text" class="form-control"
+                              formControlName="EndDate"
+                              placeholder="End Date" bsDatepicker
+                              [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+                   
+              </div>
+           </div>  
+
+    <!--       <div class="col-md-3 topMargin">
+              <div
+                      class="form-group input-group-sm form-black label-floating is-empty">
+                      <label class="label-small">Estimated Close Date</label>
+                      <input  type="text" class="form-control"
+                              formControlName="EstimatedCloseoutDate"
+                              placeholder="Estimated Close Date" bsDatepicker
+                              [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+                   
+              </div>
+           </div>  
+
+           <div class="col-md-3 topMargin">
+              <div
+                      class="form-group input-group-sm form-black label-floating is-empty">
+                      <label class="label-small">Close Date</label>
+                      <input  type="text" class="form-control"
+                              formControlName="ClosedoutDate"
+                              placeholder="Close Date" bsDatepicker
+                              [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" />
+                   
+              </div>
+           </div>  -->
+         
+  
+  
+          <div class="col-md-12">
+            <!--  <button (click)="insertPurchaseOrder()" type="submit"  style="padding-right: 15px;" class="btn btn-success pull-right">Save</button>  -->
+            <button [disabled]="form.invalid  || form.pristine" (click)="processDetailUpdate()"
+              style="padding-right: 15px;" class="btn btn-success pull-right">Save</button>
+          </div>
+         
+  
+          <div class="col-md-1">
+          </div>
+  
+  
+        </div>
+      </form>
+    </div>
+  </div>
+  <br>
+  </div>

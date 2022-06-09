@@ -1,0 +1,40 @@
+Summary:  Item fees and calculations are not being recalculated when the Purchaser on the PO is changed. 
+Component: Purchase Order Detail/Item list/Item Detail
+
+Test Case:
+
+PO Insert
+
+1. Logon to system
+2. Click on the Purchase Orders menu item
+3. Click on the select bid (FSA18-VEF13.0)
+4. Click on the New PO button
+5. Enter information in the PO Details form
+3. Keep the Bid Number FSA18-VEF13.0 (If you chose FSA18-VEF13.0 on step one this will be the default )
+4. Add the required fields making sure that you choose a County as the Purchaser *Baker County BCC - County)
+5. Make sure that you have included a PO Amount.  *10,000.00
+6. Click the Save button in the PO Detail.  
+
+Item insert
+
+7. Click on the Edit icon in the PO List for the new PO just created
+8. Click on the New Item button
+9. Add an Item Number and Item Type *4 - TYPE 2 AMBULANCE 2 WHEEL DRIVE VAN  *Ford - Transit Gas -- Type 2 Ambulance 2WD Van
+10. Enter a QTY *1
+11. Enter an Amount *10,000
+12. Click Save button on the PO Item Details
+13. Verify the following.  FSA Fee = 52.50  FAC Fee = 11.25  FFCA Fee  = 11.25
+
+PO Purchaser Modified
+
+14. Click into the PO Details field.  Note this should still be in scope but you can also click on the Edit icon of the PO List.  
+15. Change the Purchaser to a SO.  *Baker County SO
+16. Click the Save button in the PO Order Details form.  
+17. Click on the Edit icon on Purchase Order Items list.  This should be the only item.  
+18.  Verify the following. FSA Fee = 75.00  FAC Fee = 0.00  FFCA Fee = 0.00
+
+This can be tested for the many different fees and pay codes.  This is an exmaple.
+
+The database has a trigger that will recalculate the Fees.  When the Purchaser is modified for a PO this is calculated each time.  
+
+* Example data

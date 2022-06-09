@@ -1,0 +1,251 @@
+      
+      
+<div class="card-content">  
+
+      <mat-table class="mat-table-800" #table [dataSource]="paymentDataSource" matSort>
+
+            <ng-container matColumnDef="paymentDate">
+                <mat-header-cell fxFlex="175px" class="mat-800"   *matHeaderCellDef mat-sort-header>Payment Date </mat-header-cell>
+                <mat-cell fxFlex="175px" *matCellDef="let payment"> {{payment.paymentDate | date }} </mat-cell>
+            </ng-container>
+              
+            <ng-container matColumnDef="paymentAmount">
+                <mat-header-cell fxFlex="175px" class="mat-800"  *matHeaderCellDef mat-sort-header>Payment Amount</mat-header-cell>
+                <mat-cell fxFlex="175px" *matCellDef="let payment"> {{payment.paymentAmount}} </mat-cell>
+            </ng-container>
+              
+            <ng-container matColumnDef="paymentNumber">
+                <mat-header-cell fxFlex="175px" class="mat-800"  *matHeaderCellDef mat-sort-header> Payment Number </mat-header-cell>
+                <mat-cell fxFlex="175px" *matCellDef="let payment">{{payment.paymentNumber}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="paymentCheckNum">
+                    <mat-header-cell fxFlex="175px" class="mat-800" *matHeaderCellDef mat-sort-header> Payment Check Number </mat-header-cell>
+                    <mat-cell fxFlex="175px" *matCellDef="let payment">{{payment.paymentCheckNum}}</mat-cell>
+                </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header> Edit </mat-header-cell> 
+                <mat-cell fxFlex="50px" *matCellDef="let row">
+                    <button [disabled]="isReadOnly" mat-icon-button color="primary" focusable="false" (click)="onSelectPayment(row)">
+                        <i class="fa fa-pencil mat-icon"></i>
+                    </button>  
+                </mat-cell>
+            </ng-container>
+        
+            <ng-container matColumnDef="delete">
+                        <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+                        <mat-cell fxFlex="50px" *matCellDef="let row">
+                            <button [disabled]="isReadOnly" mat-icon-button color="primary" focusable="false" (click)="row.confirmEditCreate()">
+                                <i class="fa fa-trash-o  mat-icon"></i>
+                            </button>  
+                        </mat-cell>
+                  </ng-container>
+
+                  
+            <mat-header-row class="mat-800" *matHeaderRowDef="paymentColumns"></mat-header-row>
+            <mat-row class="mat-800" *matRowDef="let payment; columns: paymentColumns;"></mat-row>
+
+        
+        </mat-table>
+    </div> 
+   
+    
+    <!--
+      <div class="card-content">  
+          <form [formGroup]="paymentForm">
+              <div style="padding-top: 10px;" class="row shadow p-3 mb-5 bg-white rounded">
+                      <mat-toolbar >
+                              <span style="padding-bottom: 10px;">Administrative Fee Paymentsss</span>
+                      </mat-toolbar>
+                    
+                      <div *ngIf="selectedPayment" style="width: 1220px;" class="row shadow p-3 mb-5 bg-white rounded">
+                              <mat-toolbar >
+                                      <span >Payment Details</span>
+                              </mat-toolbar>
+
+                              <div class="col-md-2">
+                                  <div class="form-group input-group-sm form-black label-floating is-empty">
+                                      <label class="label-small">Payment Number</label>
+                                      <input type="text" formControlName="paymentNumber"   class="form-control input-group-sm" >
+                                  </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                  <div class="form-group input-group-sm form-black label-floating is-empty">
+                                      <label class="label-small">Payment Date</label>
+                                      <input  class="form-control input-group-sm" type="text" formControlName="paymentDate" required bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-green' }"  >
+                                  </div>
+                              </div>
+
+                              <div class="col-md-2 ">
+                                  <div class="form-group input-group-sm form-black label-floating is-empty">
+                                      <label class="label-small">Check Number</label>
+                                      <input type="text" formControlName="paymentCheckNum" required  class="form-control input-group-sm" >
+                                  </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">Payment Amount</label>
+                                          <input #paymentFocus  type="text" formControlName="paymentAmount" required  class="form-control input-group-sm" >
+                                      </div>
+                              </div>
+                             
+                              <div class="col-md-2 ">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                         <label class="label-small">FSA Alloction</label>
+                                         <input type="text" formControlName="fsaAlloc" class="form-control input-group-sm" >
+                                     </div>
+                                 </div>  
+
+                                 <div class="col-md-2 ">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                        <label class="label-small">Total Alloction</label>
+                                        <input type="text" formControlName="totalAlloc" class="form-control input-group-sm" >
+                                      </div>
+                              </div>
+
+                            <div class="col-md-2 ">
+                                   <div class="form-group input-group-sm form-black label-floating is-empty">
+                                      <label class="label-small">FAC Alloction</label>
+                                      <input type="text" formControlName="facAlloc" class="form-control input-group-sm" >
+                                  </div>
+                              </div>  
+
+                              <div class="col-md-2 ">
+                                  <div class="form-group input-group-sm form-black label-floating is-empty">
+                                  <label class="label-small">FFCA Alloction</label>
+                                  <input type="text" formControlName="ffcaAlloc" class="form-control input-group-sm" >
+                              </div>
+                              </div>
+
+                              
+                          
+                              <div class="col-md-2 ">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">Late Fee Amount</label>
+                                          <input type="text" formControlName="lateFeeAmt" class="form-control input-group-sm" >
+                                      </div>
+                              </div>
+
+                              <div class="col-md-2 ">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">Late Fee Check Num</label>
+                                          <input type="text" formControlName="lateFeeCheckNum"  class="form-control input-group-sm" >
+                                      </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">Late Fee Check Date</label>
+                                          <input type="text" formControlName="lateFeeCheckDate"  class="form-control input-group-sm" bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-green' }">
+                                      </div>
+                              </div>
+                             
+                              <div class="col-md-2">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">FSA Refund Amount</label>
+                                          <input type="text" formControlName="fsaRefundAmount"  class="form-control v" >
+                                      </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">FSA Refund Check Num</label>
+                                          <input type="text" formControlName="fsaRefundCheckNum"  class="form-control input-group-sm" >
+                                      </div>
+                              </div>
+
+                              <div class="col-md-2">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">FSA Refund Date</label>
+                                          <input type="text" formControlName="fsaRefundDate"  class="form-control input-group-sm" 
+                                          bsDatepicker [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY', containerClass: 'theme-green' }" >
+                                      </div>
+                              </div>
+
+                              <div class="col-md-2 ">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">Correction</label>
+                                          <input type="text" formControlName="correction"  class="form-control input-group-sm" >
+                                      </div>
+                              </div>
+
+                              <div class="col-md-2 ">
+                                      <div class="form-group input-group-sm form-black label-floating is-empty">
+                                          <label class="label-small">Audit Difference</label>
+                                          <input type="text" formControlName="auditDifference"   class="form-control input-group-sm" >
+                                      </div>
+                              </div>
+
+
+                               <div *ngIf="!fuck" style= "padding-top: 30px; margin-left: 155px;"  class="form-group form-black label-floating is-empty">
+                                              <button (click)="updatePayment()" type="submit"   class="btn btn-success pull-right">Update Payment</button>
+                               </div>
+                               <div *ngIf="fuck" style= "padding-top: 30px; margin-left: 155px;"  class="form-group form-black label-floating is-empty">
+                                          <button [disabled]="!newPoForm.touched"  (click)="insertPayment()" type="submit"   class="btn btn-success pull-right">Save</button>
+                               </div>
+
+                              <div style= "padding-top: 30px;  padding-left: 10px;" class="form-group form-black label-floating is-empty">
+                                      <button (click)="cancelPayment()" type="submit"  class="btn btn-success pull-right">Cancel</button>
+                              </div>
+                              </div>
+
+                      
+                      <mat-table class="mat-table-800" #table [dataSource]="paymentDataSource" matSort>
+
+                              <ng-container matColumnDef="paymentDate">
+                                  <mat-header-cell fxFlex="175px" class="mat-800"   *matHeaderCellDef mat-sort-header>Payment Date </mat-header-cell>
+                                  <mat-cell fxFlex="175px" *matCellDef="let payment"> {{payment.paymentDate | date }} </mat-cell>
+                              </ng-container>
+                                
+                              <ng-container matColumnDef="paymentAmount">
+                                  <mat-header-cell fxFlex="175px" class="mat-800"  *matHeaderCellDef mat-sort-header>Payment Amount</mat-header-cell>
+                                  <mat-cell fxFlex="175px" *matCellDef="let payment"> {{payment.paymentAmount}} </mat-cell>
+                              </ng-container>
+                                
+                              <ng-container matColumnDef="paymentNumber">
+                                  <mat-header-cell fxFlex="175px" class="mat-800"  *matHeaderCellDef mat-sort-header> Payment Number </mat-header-cell>
+                                  <mat-cell fxFlex="175px" *matCellDef="let payment">{{payment.paymentNumber}}</mat-cell>
+                              </ng-container>
+
+                              <ng-container matColumnDef="paymentCheckNum">
+                                      <mat-header-cell fxFlex="175px" class="mat-800" *matHeaderCellDef mat-sort-header> Payment Check Number </mat-header-cell>
+                                      <mat-cell fxFlex="175px" *matCellDef="let payment">{{payment.paymentCheckNum}}</mat-cell>
+                                  </ng-container>
+
+                              <ng-container matColumnDef="edit">
+                                  <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header> Edit </mat-header-cell> 
+                                  <mat-cell fxFlex="50px" *matCellDef="let row">
+                                      <button mat-icon-button color="primary" focusable="false" (click)="onSelectPayment(row)">
+                                          <i class="fa fa-pencil mat-icon"></i>
+                                      </button>  
+                                  </mat-cell>
+                              </ng-container>
+                          
+                              <ng-container matColumnDef="delete">
+                                          <mat-header-cell fxFlex="50px" *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+                                          <mat-cell fxFlex="50px" *matCellDef="let row">
+                                              <button mat-icon-button color="primary" focusable="false" (click)="row.confirmEditCreate()">
+                                                  <i class="fa fa-trash-o  mat-icon"></i>
+                                              </button>  
+                                          </mat-cell>
+                                    </ng-container>
+
+                                    
+                              <mat-header-row class="mat-800" *matHeaderRowDef="paymentColumns"></mat-header-row>
+                              <mat-row class="mat-800" *matRowDef="let payment; columns: paymentColumns;"></mat-row>
+
+                          
+                          </mat-table>
+
+                          <div class="col-md-12">
+                              <button (click)="newPayment2()" type="submit"  style="padding-right: 15px;" class="btn btn-success pull-right">Add Payment</button>
+                           </div>
+
+                                                      
+              </div>
+          </form>
+      </div> 
+    -->

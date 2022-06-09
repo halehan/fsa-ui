@@ -1,0 +1,169 @@
+<app-sidebar></app-sidebar>
+<div class="container-fluid">
+
+
+  <div style="width: 475px; margin-top: 100px;" class="card tight panel">
+    <div class="card-header">Vendor List</div>
+    <div class="card-body">
+
+      <mat-form-field style="padding-left: 15px;">
+        <input matInput (keyup)="applyUserFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+
+
+      <mat-table #table [dataSource]="listDS" matSort>
+
+        <ng-container matColumnDef="dealerName">
+          <mat-header-cell class="pull-left" fxFlex="300px" *matHeaderCellDef mat-sort-header>Dealer Name
+          </mat-header-cell>
+          <mat-cell fxFlex="300px" *matCellDef="let itemList"> {{itemList.dealerName}} </mat-cell>
+        </ng-container>
+
+        
+        <ng-container matColumnDef="edit">
+          <mat-header-cell class="pull-left" fxFlex="40px" *matHeaderCellDef mat-sort-header> Edit </mat-header-cell>
+          <mat-cell fxFlex="40px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="onSelect(row)">
+              <i class="fa fa-pencil mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+
+        <ng-container matColumnDef="delete">
+          <mat-header-cell fxFlex="40px" *matHeaderCellDef mat-sort-header> Delete </mat-header-cell>
+          <mat-cell fxFlex="40px" *matCellDef="let row">
+            <button mat-icon-button color="primary" focusable="false" (click)="deleteDealer(row)">
+              <i class="fa fa-trash-o  mat-icon"></i>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="itemColumns"></mat-header-row>
+        <mat-row *matRowDef="let itemList; columns: itemColumns;"></mat-row>
+
+
+      </mat-table>
+
+      <mat-paginator [length]="1000" [pageSize]="5" [pageSizeOptions]="[5, 25, 100, 500]">
+      </mat-paginator>
+
+    </div>
+
+    <div class="new-po form-group col-md-8">
+      <button mat-icon-button color="primary" focusable="false" (click)="newDealer()">
+        <i style="font-size: 18px;" class="fa fa-plus-circle mat-icon"> </i>
+        New Vendor
+      </button>
+    </div>
+
+  </div>
+
+  <br>
+
+
+  <div [hidden]="!enableDetail" class="card">
+    <div class="card-header">
+      Vendor Details
+    </div>
+    <div class="card-body">
+
+      <form [formGroup]="dealerForm">
+        <div class="form-row">
+
+
+          <div class="col-md-8  form-group input-group-sm form-black label-floating is-empty">
+            <label class="label-small">Vendor Name</label>
+            <input placeholder="Vendor Name" required style="text-align: left" type="text" name="dealerName"
+              formControlName="dealerName" class="form-control">
+          </div>
+
+          <div class="col-md-4 form-group input-group-sm form-black label-floating is-empty">
+            <div style="padding-top: 25px; padding-left: 10px;" class="form-group input-group-sm form-check form-check-inline">
+              <label style="padding-right: 10px; padding-left: 10px;" class="form-check-label">Active</label>
+              <input style="width: 18px; height: 18px; padding-left: 15px;" type="checkbox" formControlName="active"
+                value="1">
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <!--  <button (click)="insertPurchaseOrder()" type="submit"  style="padding-right: 15px;" class="btn btn-success pull-right">Save</button>  -->
+            <button [disabled]="dealerForm.invalid  || dealerForm.pristine" (click)="processDetailUpdate()"
+              style="padding-right: 15px;" class="btn btn-success pull-right">Save</button>
+          </div>
+
+          <div class="col-md-1">
+          </div>
+
+
+        </div>
+      </form>
+    </div>
+<div>
+
+  <div [hidden]="isNew">
+  <div class="card-header">
+    Current Contracts
+  </div>
+  <div class="card-body">
+  <mat-table #table [dataSource]="listAssocDS" matSort>
+
+
+    <ng-container matColumnDef="bidNumber">
+      <mat-header-cell class="pull-left" fxFlex="275px" *matHeaderCellDef mat-sort-header>Contract Name
+      </mat-header-cell>
+      <mat-cell fxFlex="275px" *matCellDef="let itemList"> {{itemList.bidNumber}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell fxFlex="140px" *matHeaderCellDef mat-sort-header> Remove  </mat-header-cell>
+      <mat-cell fxFlex="140px" *matCellDef="let row">
+        <button style="margin-left: 5px;" mat-icon-button color="primary" focusable="false" (click)="deleteContractAssoc(row)">
+          <i class="fa fa-minus-circle mat-icon"></i>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="assocColumns"></mat-header-row>
+    <mat-row *matRowDef="let itemList; columns: assocColumns;"></mat-row>
+
+  </mat-table>
+  </div>
+
+
+<div style="margin-top: 20px;">
+  <div class="card-header">
+    Available Contracts
+  </div>
+  <div class="card-body">
+  <mat-table #table [dataSource]="listAvailDS" matSort>
+
+
+    <ng-container matColumnDef="bidNumber">
+      <mat-header-cell class="pull-left" fxFlex="275px" *matHeaderCellDef mat-sort-header>Contract Name
+      </mat-header-cell>
+      <mat-cell fxFlex="275px" *matCellDef="let itemList"> {{itemList.bidNumber}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell fxFlex="140px" *matHeaderCellDef mat-sort-header> Add  </mat-header-cell>
+      <mat-cell fxFlex="140px" *matCellDef="let row">
+        <button  mat-icon-button color="primary" focusable="false" (click)="addContractAssoc(row)">
+          <i class="fa fa-plus-circle  mat-icon"></i>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="assocColumns"></mat-header-row>
+    <mat-row *matRowDef="let itemList; columns: assocColumns;"></mat-row>
+
+  </mat-table>
+</div>
+
+</div>
+
+
+  </div>
+  <br>
+</div>
